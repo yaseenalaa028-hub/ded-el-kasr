@@ -3,228 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DED EL KASR | ضد الكسر للمطابخ والرخام</title>
+    <title>DED EL KASR | ضد الكسر</title>
     
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --gold: #D4AF37;
-            --secondary: #b8952d;
-            --dark: #000;
-            --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(212, 175, 55, 0.2);
-            --glow: 0 0 20px rgba(212, 175, 55, 0.4);
-            --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --dark-glass: rgba(0, 0, 0, 0.85);
+            --border: rgba(212, 175, 55, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         
+        /* --- الصورة في الخلفية --- */
         body { 
             color: white; overflow-x: hidden;
-            /* خلفية تعبر عن فخامة المطابخ والرخام */
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                        url('https://images.unsplash.com/photo-1556909172-54557c7e4fb7?q=80&w=2070');
-            background-size: cover; background-position: center; background-attachment: fixed;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* الصورة ثابتة والشغل بيتحرك فوقها */
         }
 
-        /* --- هيدر اللوجو في النص --- */
+        /* --- الهيدر --- */
         header {
-            position: fixed; top: 0; width: 100%; padding: 25px 5%;
-            background: rgba(0,0,0,0.9); backdrop-filter: blur(15px);
-            z-index: 2000; display: flex; flex-direction: column; align-items: center; gap: 20px;
-            border-bottom: 1px solid var(--border);
+            position: fixed; top: 0; width: 100%; padding: 12px 5%;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 2000; border-bottom: 1px solid var(--border);
         }
+        .logo-box { font-size: 1.6rem; font-weight: 900; color: var(--gold); }
+        .social-links a { color: white; margin-right: 15px; font-size: 1.2rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--gold); }
+        .btn-order { background: var(--gold); color: black; padding: 8px 18px; border-radius: 5px; font-weight: 900; text-decoration: none; }
 
-        /* --- تصميم اللوجو الـ 3D الجولد --- */
-        .logo-text { 
-            font-size: 3.5rem; font-weight: 900; color: var(--gold); text-decoration: none;
-            text-shadow: 
-                0 1px 0 #886a0d, 0 2px 0 #775d0b, 0 3px 0 #665009, 
-                0 4px 0 #554308, 0 5px 0 #443606, 0 6px 1px rgba(0,0,0,.1), 
-                0 0 10px rgba(212, 175, 55, 0.5);
-            transition: var(--transition);
-            position: relative;
+        /* --- الرول (الشريط المتحرك) في أول الصفحة --- */
+        .main-marquee {
+            margin-top: 70px; background: var(--gold); color: black; 
+            padding: 15px 0; overflow: hidden; white-space: nowrap; font-weight: 900;
+            border-bottom: 3px solid #fff; position: relative; z-index: 100;
         }
-        .logo-text:hover { transform: scale(1.05); text-shadow: 0 0 30px var(--gold); }
+        .marquee-container { display: inline-block; animation: scroll-text 40s linear infinite; }
+        .marquee-container span { margin: 0 50px; font-size: 1.2rem; }
+        @keyframes scroll-text { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .header-controls { display: flex; align-items: center; gap: 40px; }
-        .social-nav a { color: white; font-size: 1.5rem; transition: var(--transition); margin: 0 10px; }
-        .social-nav a:hover { color: var(--gold); transform: translateY(-3px); }
-        
-        .btn-inspect-top { background: var(--gold); color: black; padding: 12px 30px; border-radius: 50px; font-weight: 900; text-decoration: none; transition: var(--transition); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
-
-        /* --- السكرول الذهبي --- */
-        .marquee-top {
-            background: var(--gold); color: black; padding: 15px 0;
-            overflow: hidden; white-space: nowrap; font-weight: 900;
-            margin-top: 190px; /* مسافة عشان اللوجو بقى في النص */
-            display: flex;
+        /* --- قسم المواصفات (دلع زجاجي) --- */
+        .specs-section { padding: 60px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .spec-item { 
+            background: var(--dark-glass); padding: 35px; border-radius: 20px; 
+            border: 1px solid var(--border); text-align: center; backdrop-filter: blur(5px);
+            transition: 0.4s;
         }
-        .marquee-top .m-content { display: inline-block; animation: m-scroll 35s linear infinite; }
-        .marquee-top span { margin: 0 60px; font-size: 1.1rem; }
-        @keyframes m-scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* --- كروت المواصفات --- */
-        .specifications { padding: 80px 5% 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .spec-box { background: var(--glass); padding: 40px; border-radius: 30px; border: 1px solid var(--border); text-align: center; transition: var(--transition); backdrop-filter: blur(10px); }
-        .spec-box:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: var(--glow); }
-        .spec-box i { font-size: 3rem; color: var(--gold); margin-bottom: 25px; }
-        .spec-box h3 { font-size: 1.6rem; color: var(--gold); margin-bottom: 15px; font-weight: 800; }
+        .spec-item:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 0 20px var(--border); }
+        .spec-item i { font-size: 2.8rem; color: var(--gold); margin-bottom: 20px; }
+        .spec-item h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--gold); }
 
         /* --- معرض الأعمال --- */
-        .portfolio { padding: 60px 5%; }
-        .title-fancy { text-align: center; color: var(--gold); font-size: 3rem; margin-bottom: 60px; font-weight: 900; text-shadow: var(--glow); }
-        .work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .work-card { position: relative; border-radius: 35px; overflow: hidden; height: 450px; border: 1px solid var(--border); }
-        .work-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
+        .gallery-title { text-align: center; margin: 40px 0; font-size: 2.5rem; color: var(--gold); font-weight: 900; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 0 5% 80px; }
+        .work-card { 
+            position: relative; border-radius: 20px; overflow: hidden; height: 400px; 
+            border: 1px solid var(--border); background: #000;
+        }
+        .work-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .work-card:hover img { transform: scale(1.1); filter: brightness(0.4); }
-        .work-overlay { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.5s; background: rgba(0,0,0,0.5); }
-        .work-card:hover .work-overlay { opacity: 1; }
-        .work-overlay h4 { font-size: 1.8rem; color: var(--gold); font-weight: 900; text-align: center; padding: 20px; }
+        .work-info { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; }
+        .work-card:hover .work-info { opacity: 1; }
 
-        /* --- لوحة التحكم (مخفية) --- */
-        #adminPanel { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; }
-        .admin-dashboard { background: #fff; color: #333; padding: 40px; border-radius: 30px; width: 100%; max-width: 600px; }
-        .admin-tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 25px; }
-        .tab-button { flex: 1; padding: 15px; border: none; background: none; font-weight: 900; cursor: pointer; color: #888; }
-        .tab-button.active { border-bottom: 4px solid var(--gold); color: var(--gold); }
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #ddd; font-weight: 600; }
-        .del-list-box { max-height: 250px; overflow-y: auto; margin-top: 15px; border: 1px solid #f0f0f0; border-radius: 12px; }
-        .del-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
-        .btn-publish { width: 100%; padding: 18px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; }
+        /* --- لوحة التحكم المخفية --- */
+        #adminPanel { 
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); 
+            z-index: 9999; align-items: center; justify-content: center; padding: 20px;
+        }
+        .admin-modal { background: white; color: black; padding: 35px; border-radius: 20px; width: 100%; max-width: 500px; }
+        .admin-tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: 900; cursor: pointer; }
+        .tab-btn.active { border-bottom: 3px solid var(--gold); color: var(--gold); }
+        
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; }
+        .btn-action { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        .del-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; margin-top: 10px; }
+        .del-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
 
-        .wa-float { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: white; z-index: 1000; }
-        footer { padding: 60px; text-align: center; border-top: 1px solid var(--border); background: #000; }
+        /* واتساب عائم */
+        .wa-float { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        footer { padding: 50px 5%; text-align: center; border-top: 1px solid var(--border); background: rgba(0,0,0,0.8); }
     </style>
 </head>
-<body ondblclick="checkAdminStatus()">
+<body ondblclick="openAdmin()">
 
     <header>
-        <a href="#" class="logo-text">ضد الكسر</a>
-        <div class="header-controls">
-            <div class="social-nav">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="https://wa.me/201144265938"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <a href="https://wa.me/201144265938?text=طلب معاينة لشغل ضد الكسر" class="btn-inspect-top">اطلب المعاينة الآن</a>
+        <div class="logo-box">ضد الكسر</div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201144265938"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://wa.me/201144265938" class="btn-order">اطلب المعاينة</a>
         </div>
     </header>
 
-    <div class="marquee-top">
-        <div class="m-content">
-            <span>🛡️ ضد الكسر للمطابخ والرخام</span>
+    <div class="main-marquee">
+        <div class="marquee-container">
+            <span>🛡️ ضد الكسر للمطابخ</span>
             <span>✨ جودة تعيش… وشغل يفرق</span>
             <span>💪 خامات قوية مستحملة الاستخدام</span>
             <span>🏠 تصميمات حديثة تناسب كل بيت</span>
             <span>💎 تشطيب نضيف يديك شكل يليق بيك</span>
+            <span>🛡️ ضد الكسر للمطابخ</span>
+            <span>✨ جودة تعيش… وشغل يفرق</span>
+            <span>💪 خامات قوية مستحملة الاستخدام</span>
         </div>
     </div>
 
-    <section class="specifications">
-        <div class="spec-box"><i class="fas fa-layer-group"></i><h3>خامات أصلية</h3><p>نستخدم ألمنيوم ثقيل واكسسوارات تعيش العمر كله.</p></div>
-        <div class="spec-box"><i class="fas fa-gem"></i><h3>رخام فاخر</h3><p>أجود أنواع الجرانيت والرخام الطبيعي والصناعي.</p></div>
-        <div class="spec-box"><i class="fas fa-calculator"></i><h3>تخصيم هندسي</h3><p>ديناميكية تخصيم دقيقة 100% ببرمجة DOGGA SYSTEM.</p></div>
+    <section class="specs-section">
+        <div class="spec-item">
+            <i class="fas fa-tools"></i>
+            <h3>خامات قوية</h3>
+            <p>ألمنيوم ثقيل واكسسوارات مستوردة تتحمل أصعب الظروف.</p>
+        </div>
+        <div class="spec-item">
+            <i class="fas fa-gem"></i>
+            <h3>رخام وجرانيت</h3>
+            <p>تشكيلة فاخرة من الرخام الطبيعي والصناعي بأعلى جودة.</p>
+        </div>
+        <div class="spec-item">
+            <i class="fas fa-cogs"></i>
+            <h3>DOGGA SYSTEM</h3>
+            <p>ديناميكية تخصيم هندسية دقيقة لضمان جودة التركيب.</p>
+        </div>
     </section>
 
-    <section class="portfolio">
-        <h2 class="title-fancy">معرض الأعمال المنفذة</h2>
-        <div class="work-grid" id="portfolioGrid"></div>
-    </section>
+    <h2 class="gallery-title">معرض أعمالنا</h2>
+    <div class="gallery-grid" id="mainGallery"></div>
 
     <div id="adminPanel">
-        <div class="admin-dashboard">
-            <h2 style="text-align:center; margin-bottom:25px;">إدارة المهندس ياسين</h2>
+        <div class="admin-modal">
             <div class="admin-tabs">
-                <button class="tab-button active" onclick="changeAdminTab('add')">إضافة أعمال</button>
-                <button class="tab-button" onclick="changeAdminTab('del')">إدارة الحذف</button>
+                <button class="tab-btn active" id="tAdd" onclick="switchTab('add')">إضافة عمل</button>
+                <button class="tab-btn" id="tDel" onclick="switchTab('del')">إدارة الحذف</button>
             </div>
-            <div id="addAreaPart">
-                <input type="text" id="linkInpField" placeholder="رابط الصورة من ImgBB">
-                <input type="text" id="nameInpField" placeholder="اسم التصميم">
-                <button class="btn-publish" onclick="uploadNewWork()">نشر العمل الآن</button>
+            <div id="addSection">
+                <input type="text" id="inpUrl" placeholder="رابط الصورة">
+                <input type="text" id="inpName" placeholder="اسم المطبخ">
+                <button class="btn-action" onclick="saveWork()">نشر الآن</button>
             </div>
-            <div id="delAreaPart" style="display:none;">
-                <div class="del-list-box" id="worksDeleteList"></div>
+            <div id="delSection" style="display:none;">
+                <div class="del-list" id="adminDelList"></div>
             </div>
-            <button onclick="closeAdminPanel()" style="width:100%; margin-top:25px; background:none; border:none; color:#888; cursor:pointer;">خروج</button>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="margin-top:15px; width:100%; background:none; border:none; color:gray; cursor:pointer;">إغلاق</button>
         </div>
     </div>
 
     <a href="https://wa.me/201144265938" class="wa-float"><i class="fab fa-whatsapp"></i></a>
 
     <footer>
-        <h2 style="color:var(--gold); font-weight:900;">DED EL KASR - ضد الكسر</h2>
+        <p style="color:var(--gold); font-weight:900; font-size:1.5rem;">DED EL KASR</p>
         <p>تصميم م/ ياسين علاء © 2026</p>
     </footer>
 
     <script>
-        const fb_config = { databaseURL: "https://ded-el-kasr-default-rtdb.firebaseio.com/" };
-        firebase.initializeApp(fb_config);
-        const fb_db = firebase.database();
+        const firebaseConfig = { databaseURL: "https://ded-el-kasr-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-        function checkAdminStatus() {
-            if(prompt("كلمة سر الإدارة:") === "123") {
+        function openAdmin() {
+            if(prompt("باسورد المهندس:") === "123") {
                 document.getElementById('adminPanel').style.display = 'flex';
+                loadAdminList();
             }
         }
-        function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; }
 
-        function changeAdminTab(mode) {
-            document.getElementById('addAreaPart').style.display = mode === 'add' ? 'block' : 'none';
-            document.getElementById('delAreaPart').style.display = mode === 'del' ? 'block' : 'none';
-            const tabs = document.querySelectorAll('.tab-button');
-            tabs[0].classList.toggle('active', mode === 'add');
-            tabs[1].classList.toggle('active', mode === 'del');
-            if(mode === 'del') loadDeleteWorksList();
+        function switchTab(mode) {
+            document.getElementById('addSection').style.display = mode === 'add' ? 'block' : 'none';
+            document.getElementById('delSection').style.display = mode === 'del' ? 'block' : 'none';
+            document.getElementById('tAdd').classList.toggle('active', mode === 'add');
+            document.getElementById('tDel').classList.toggle('active', mode === 'del');
         }
 
-        function uploadNewWork() {
-            const url = document.getElementById('linkInpField').value;
-            const name = document.getElementById('nameInpField').value || "تصميم جديد";
-            if(!url.startsWith('http')) return alert("رابط غير صحيح!");
-            fb_db.ref('works').push({ url, name }).then(() => {
-                alert("تم النشر!");
-                location.reload();
-            });
+        function saveWork() {
+            const url = document.getElementById('inpUrl').value;
+            const name = document.getElementById('inpName').value || "تصميم جديد";
+            if(!url) return alert("من فضلك ضع الرابط");
+            db.ref('works').push({ url, name }).then(() => { location.reload(); });
         }
 
-        fb_db.ref('works').on('value', (snapshot) => {
-            const grid = document.getElementById('portfolioGrid');
+        db.ref('works').on('value', (s) => {
+            const grid = document.getElementById('mainGallery');
             grid.innerHTML = '';
-            snapshot.forEach((child) => {
+            s.forEach((child) => {
                 const data = child.val();
                 grid.innerHTML += `
                     <div class="work-card">
                         <img src="${data.url}">
-                        <div class="work-overlay"><h4>${data.name}</h4></div>
+                        <div class="work-info"><h3>${data.name}</h3></div>
                     </div>`;
             });
         });
 
-        function loadDeleteWorksList() {
-            const listDiv = document.getElementById('worksDeleteList');
-            listDiv.innerHTML = '';
-            fb_db.ref('works').once('value', (snapshot) => {
-                snapshot.forEach((child) => {
+        function loadAdminList() {
+            const list = document.getElementById('adminDelList');
+            list.innerHTML = '';
+            db.ref('works').once('value', (s) => {
+                s.forEach((child) => {
                     const data = child.val();
-                    listDiv.innerHTML += `
-                        <div class="del-item-row">
+                    list.innerHTML += `
+                        <div class="del-row">
                             <span>${data.name}</span>
-                            <button onclick="requestDelete('${child.key}')" style="color:red; border:none; background:none; cursor:pointer;">حذف</button>
+                            <button onclick="deleteIt('${child.key}')" style="color:red; border:none; background:none; cursor:pointer;">حذف</button>
                         </div>`;
                 });
             });
         }
 
-        function requestDelete(id) {
-            if(confirm("حذف نهائي؟")) {
-                fb_db.ref('works').child(id).remove().then(() => loadDeleteWorksList());
-            }
+        function deleteIt(id) {
+            if(confirm("مسح الصورة؟")) db.ref('works').child(id).remove().then(() => loadAdminList());
         }
     </script>
 </body>
