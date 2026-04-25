@@ -3,253 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DED EL KASR | ضد الكسر</title>
-    
+    <title>ضد الكسر | DED EL KASR</title>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #D4AF37;
-            --dark-glass: rgba(0, 0, 0, 0.9);
-            --border: rgba(212, 175, 55, 0.4);
-        }
-
+        :root { --gold: #D4AF37; --border: rgba(212, 175, 55, 0.5); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        
-        body { 
-            color: white; overflow-x: hidden;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
-                        url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=2070');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
+        body { background: #fdfdfd; color: #333; }
 
-        /* --- الهيدر (الأزرار واللوجو) --- */
+        /* الهيدر الفاتح بالأزرار */
         header {
-            position: fixed; top: 0; width: 100%; padding: 12px 5%;
-            background: rgba(0,0,0,0.95); backdrop-filter: blur(10px);
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 2000; border-bottom: 2px solid var(--border);
+            position: fixed; top: 0; width: 100%; padding: 15px 5%;
+            background: rgba(255,255,255,0.95); display: flex; 
+            justify-content: space-between; align-items: center;
+            z-index: 2000; border-bottom: 2px solid var(--gold);
         }
-        .logo-box { font-size: 1.6rem; font-weight: 900; color: var(--gold); }
-        .nav-actions { display: flex; align-items: center; gap: 15px; }
-        .social-icons a { color: white; font-size: 1.3rem; transition: 0.3s; margin-left: 10px; }
-        .social-icons a:hover { color: var(--gold); transform: scale(1.2); }
-        .btn-order { background: var(--gold); color: black; padding: 10px 20px; border-radius: 8px; font-weight: 900; text-decoration: none; border: 2px solid transparent; transition: 0.3s; }
-        .btn-order:hover { background: transparent; color: var(--gold); border-color: var(--gold); }
+        .logo-box { font-size: 1.8rem; font-weight: 900; color: #000; }
+        .btn-order { background: var(--gold); color: #000; padding: 10px 25px; border-radius: 8px; font-weight: 900; text-decoration: none; }
 
-        /* --- الرول المتحرك (Marquee) --- */
-        .main-marquee {
-            margin-top: 75px; background: var(--gold); color: black; 
-            padding: 15px 0; overflow: hidden; white-space: nowrap; font-weight: 900;
-            border-bottom: 3px solid #fff;
+        /* الهيرو سيكشن - صورة الشخص مالي الشاشة وفاتحة */
+        .hero {
+            height: 100vh; width: 100%;
+            background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.2)), 
+                        url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070');
+            background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center; text-align: center;
         }
-        .marquee-container { display: inline-block; animation: scroll-text 35s linear infinite; }
-        .marquee-container span { margin: 0 40px; font-size: 1.1rem; }
-        @keyframes scroll-text { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .hero-content { background: rgba(255, 255, 255, 0.85); padding: 50px; border-radius: 20px; border: 2px solid var(--gold); backdrop-filter: blur(5px); max-width: 850px; margin: 20px; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); color: #000; font-weight: 900; margin-bottom: 15px; }
+        .hero p { font-size: 1.2rem; color: #333; font-weight: 700; line-height: 1.8; }
 
-        /* --- كروت المواصفات (طويلة، كلام صغير ومكثف) --- */
-        .specs-section { 
-            padding: 60px 5%; display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-        }
-        .spec-item { 
-            background: var(--dark-glass); padding: 50px 25px; border-radius: 20px; 
-            border: 1px solid var(--border); text-align: center;
-            min-height: 550px; display: flex; flex-direction: column; justify-content: center;
-        }
-        .spec-item i { font-size: 3rem; color: var(--gold); margin-bottom: 25px; }
-        .spec-item h3 { font-size: 1.6rem; margin-bottom: 20px; color: var(--gold); font-weight: 900; }
-        .spec-item p { font-size: 0.95rem; line-height: 1.7; color: #ddd; text-align: justify; }
+        /* كروت المواصفات - طويلة جداً وكلام مكثف */
+        .specs-section { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; background: #fff; }
+        .spec-item { background: #fcfcfc; padding: 80px 30px; border-radius: 25px; border: 1px solid #eee; text-align: center; min-height: 650px; display: flex; flex-direction: column; justify-content: center; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .spec-item:hover { border-color: var(--gold); transform: translateY(-15px); }
+        .spec-item i { font-size: 4rem; color: var(--gold); margin-bottom: 30px; }
+        .spec-item h3 { font-size: 2rem; color: #000; margin-bottom: 20px; font-weight: 900; }
+        .spec-item p { font-size: 1.05rem; color: #555; line-height: 1.9; text-align: justify; }
 
-        /* --- معرض الأعمال (صورتين جنب بعض) --- */
-        .gallery-title { text-align: center; margin: 50px 0 30px; font-size: 2.2rem; color: var(--gold); font-weight: 900; }
-        .gallery-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; padding: 0 5% 80px; 
-        }
-        .work-card { 
-            position: relative; border-radius: 12px; overflow: hidden; height: 300px; 
-            border: 1px solid var(--border); cursor: pointer;
-        }
+        /* المعرض - صورتين جنب بعض */
+        .gallery-title { text-align: center; padding: 60px 0 20px; font-size: 2.5rem; font-weight: 900; color: #000; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 5% 100px; }
+        .work-card { border-radius: 20px; overflow: hidden; height: 450px; border: 2px solid #eee; cursor: pointer; position: relative; }
         .work-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .work-card:hover img { transform: scale(1.1); filter: brightness(0.3); }
-        .work-info { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; padding: 10px; text-align: center; }
-        .work-card:hover .work-info { opacity: 1; }
-        .work-info h3 { font-size: 1rem; color: var(--gold); }
+        .work-card:hover img { transform: scale(1.1); }
 
-        /* --- Lightbox (عرض الصورة كاملة) --- */
-        #lightbox {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 5000; justify-content: center; align-items: center; padding: 20px;
-        }
-        #lightbox img { max-width: 90%; max-height: 90vh; border: 2px solid var(--gold); border-radius: 8px; }
+        /* Lightbox لفتح الصورة كاملة */
+        #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; justify-content: center; align-items: center; padding: 20px; }
+        #lightbox img { max-width: 95%; max-height: 90vh; border: 3px solid var(--gold); border-radius: 10px; }
 
-        /* --- لوحة التحكم المتكاملة (إضافة وحذف) --- */
-        #adminPanel { 
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); 
-            z-index: 6000; align-items: center; justify-content: center; padding: 20px;
-        }
-        .admin-modal { background: white; color: black; padding: 25px; border-radius: 15px; width: 100%; max-width: 500px; }
-        .admin-tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 15px; }
-        .tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: 900; cursor: pointer; }
-        .tab-btn.active { border-bottom: 3px solid var(--gold); color: var(--gold); }
-        input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 5px; border: 1px solid #ddd; }
-        .btn-action { width: 100%; padding: 12px; background: var(--gold); border: none; border-radius: 5px; font-weight: 900; cursor: pointer; }
-        .del-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; margin-top: 10px; }
-        .del-row { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #eee; align-items: center; }
-
-        /* واتساب عائم */
-        .wa-float { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; z-index: 1000; }
-
-        @media (max-width: 600px) {
-            .gallery-grid { grid-template-columns: 1fr 1fr; }
-            .work-card { height: 180px; }
-            .spec-item { min-height: 480px; }
-        }
+        .wa-float { position: fixed; bottom: 30px; left: 30px; width: 65px; height: 65px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: white; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .work-card { height: 250px; } .spec-item { min-height: 550px; } }
     </style>
 </head>
-<body ondblclick="openAdmin()">
-
+<body>
     <header>
         <div class="logo-box">ضد الكسر</div>
-        <div class="nav-actions">
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="https://wa.me/201144265938"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <a href="https://wa.me/201144265938" class="btn-order">اطلب المعاينة</a>
-        </div>
+        <a href="https://wa.me/201144265938" class="btn-order">اطلب المعاينة</a>
     </header>
 
-    <div class="main-marquee">
-        <div class="marquee-container">
-            <span>🛡️ ضد الكسر للمطابخ</span>
-            <span>✨ جودة تعيش… وشغل يفرق</span>
-            <span>💪 خامات قوية مستحملة الاستخدام</span>
-            <span>🏠 تصميمات حديثة تناسب كل بيت</span>
-            <span>💎 تشطيب نضيف يديك شكل يليق بيك</span>
-        </div>
-    </div>
-
-    <section class="specs-section">
-        <div class="spec-item">
-            <i class="fas fa-tools"></i>
-            <h3>خامات قوية صلبة</h3>
-            <p>نستخدم في "ضد الكسر" ألومنيوم ثقيل بقطاعات خاصة معالجة ضد الصدأ والحرارة، ومفصلات هيدروليك إيطالية الصنع تتحمل الاستخدام الشاق لسنوات طويلة جداً. شغلنا مبني على القوة والصلابة لضمان بقاء مطبخك بحالته الأولى تحت أصعب الظروف المنزلية، مع توفير أقصى درجات الأمان والمتانة في كل تفصيلة.</p>
-        </div>
-        <div class="spec-item">
-            <i class="fas fa-gem"></i>
-            <h3>أفخم أنواع الرخام</h3>
-            <p>نوفر تشكيلة عالمية من الجرانيت الطبيعي والرخام الصناعي (الكوارتز) المقاوم للبقع والخدوش، مع تشطيب "لمعة المرايا" الذي يعطي فخامة لا تقارن. يتم تقطيع الرخام بأحدث الماكينات لضمان زوايا دقيقة ودمجه مع الألومنيوم بشكل هندسي يمنع تسريب المياه، مما يضمن لك مطبخاً يجمع بين المظهر الجمالي والعمر الطويل.</p>
-        </div>
-        <div class="spec-item">
-            <i class="fas fa-cogs"></i>
-            <h3>DOGGA SYSTEM</h3>
-            <p>بفضل نظام DOGGA SYSTEM الخاص بالمهندس ياسين علاء، نضمن لك دقة تخصيم متناهية تصل لـ 100%. هذا النظام البرمجي المتطور يحسب كل قطعة ألومنيوم وكل زاوية بدقة متناهية، مما يضمن خروج المنتج النهائي بشكل متناسق ومحكم الإغلاق تماماً كما في التصميم، لضمان أعلى مستويات الجودة في التقفيل والتركيب.</p>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🛡️ ضد الكسر للمطابخ</h1>
+            <p>نحن لا نصنع مجرد مطابخ، بل نصنع تحفاً هندسية تدوم للأبد. مع نظام DOGGA SYSTEM المتطور، نضمن لك دقة تصل إلى 100% في التخصيم والتركيب، باستخدام أقوى قطاعات الألمنيوم وأفخم أنواع الرخام والجرانيت العالمي.</p>
         </div>
     </section>
 
-    <h2 class="gallery-title">أحدث أعمالنا</h2>
+    <section class="specs-section">
+        <div class="spec-item">
+            <i class="fas fa-shield-alt"></i>
+            <h3>خامات صلبة وقوية</h3>
+            <p>نعتمد في تصنيعنا على ألومنيوم ثقيل الوزن ومعالج ضد الرطوبة والحرارة العالية. إكسسواراتنا إيطالية وتركية أصلية، ومفصلات هيدروليك ناعمة الفتح والقفل، مصممة خصيصاً لتعيش سنوات طويلة دون الحاجة لأي صيانة، لتكون واجهة مطبخك "ضد الكسر" فعلياً وعملياً.</p>
+        </div>
+        <div class="spec-item">
+            <i class="fas fa-pencil-ruler"></i>
+            <h3>DOGGA SYSTEM</h3>
+            <p>التميز الهندسي هو سر نجاحنا؛ فمن خلال برمجة المهندس ياسين علاء، نستخدم نظام DOGGA لضمان دقة متناهية في حسابات التقطيع والتقفيل. هذا يمنع أي فراغات أو عيوب فنية في المطبخ، ويضمن لك استلام منتج نهائي متناسق تماماً مع مساحة منزلك بكل احترافية.</p>
+        </div>
+        <div class="spec-item">
+            <i class="fas fa-gem"></i>
+            <h3>رخام وجرانيت فاخر</h3>
+            <p>نقدم لك أجود أنواع الجرانيت الطبيعي والرخام الصناعي (الكوارتز) الذي يتميز بصلابته ومقاومته العالية للخدوش والبقع. تشطيباتنا تتميز بلمعة المرايا ودقة في دمج الرخام مع الألومنيوم بشكل يمنع تسرب المياه نهائياً، مما يحافظ على نظافة ومتانة مطبخك لأقصى درجة.</p>
+        </div>
+    </section>
+
+    <h2 class="gallery-title">أحدث أعمال المهندس ياسين</h2>
     <div class="gallery-grid" id="mainGallery"></div>
 
-    <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lightboxImg" src="">
-    </div>
-
-    <div id="adminPanel">
-        <div class="admin-modal">
-            <div class="admin-tabs">
-                <button class="tab-btn active" id="tAdd" onclick="switchTab('add')">إضافة عمل</button>
-                <button class="tab-btn" id="tDel" onclick="switchTab('del')">حذف أعمال</button>
-            </div>
-            <div id="addSection">
-                <input type="text" id="inpUrl" placeholder="رابط الصورة المباشر">
-                <input type="text" id="inpName" placeholder="اسم العمل">
-                <button class="btn-action" onclick="saveWork()">نشر في المعرض</button>
-            </div>
-            <div id="delSection" style="display:none;">
-                <div class="del-list" id="adminDelList"></div>
-            </div>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="width:100%; margin-top:10px; border:none; background:none; color:gray; cursor:pointer;">إغلاق</button>
-        </div>
-    </div>
-
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lightboxImg"></div>
     <a href="https://wa.me/201144265938" class="wa-float"><i class="fab fa-whatsapp"></i></a>
-
-    <footer>
-        <p style="color:var(--gold); font-weight:900; font-size:1.4rem;">DED EL KASR</p>
-        <p>تصميم م/ ياسين علاء  © 2026</p>
-    </footer>
 
     <script>
         const firebaseConfig = { databaseURL: "https://ded-el-kasr-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function openAdmin() {
-            if(prompt("باسورد المهندس:") === "123") {
-                document.getElementById('adminPanel').style.display = 'flex';
-                loadAdminList();
-            }
-        }
-
-        function switchTab(mode) {
-            document.getElementById('addSection').style.display = mode === 'add' ? 'block' : 'none';
-            document.getElementById('delSection').style.display = mode === 'del' ? 'block' : 'none';
-            document.getElementById('tAdd').classList.toggle('active', mode === 'add');
-            document.getElementById('tDel').classList.toggle('active', mode === 'del');
-        }
-
-        function saveWork() {
-            const url = document.getElementById('inpUrl').value;
-            const name = document.getElementById('inpName').value || "تصميم جديد";
-            if(!url) return alert("ضع الرابط");
-            db.ref('works').push({ url, name }).then(() => location.reload());
-        }
-
         db.ref('works').on('value', (s) => {
             const grid = document.getElementById('mainGallery');
             grid.innerHTML = '';
             s.forEach((child) => {
                 const data = child.val();
-                grid.innerHTML += `
-                    <div class="work-card" onclick="openLightbox('${data.url}')">
-                        <img src="${data.url}">
-                        <div class="work-info"><h3>${data.name}</h3></div>
-                    </div>`;
+                grid.innerHTML += `<div class="work-card" onclick="openLightbox('${data.url}')"><img src="${data.url}"></div>`;
             });
         });
 
-        function openLightbox(url) {
-            document.getElementById('lightboxImg').src = url;
-            document.getElementById('lightbox').style.display = 'flex';
-        }
+        function openLightbox(url) { document.getElementById('lightboxImg').src = url; document.getElementById('lightbox').style.display = 'flex'; }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم | ضد الكسر</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #f0f0f0; padding: 50px; text-align: center; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        button { width: 95%; padding: 15px; background: #D4AF37; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .item-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; background: #fff; margin-top: 5px; border-radius: 5px; }
+        .del-btn { color: red; cursor: pointer; border: none; background: none; }
+    </style>
+</head>
+<body>
+    <div class="admin-box" id="loginBox">
+        <h2>دخول المهندس</h2>
+        <input type="password" id="pass" placeholder="كلمة السر">
+        <button onclick="checkPass()">دخول</button>
+    </div>
 
-        function loadAdminList() {
-            const list = document.getElementById('adminDelList');
-            list.innerHTML = 'جاري التحميل...';
-            db.ref('works').once('value', (s) => {
-                list.innerHTML = '';
+    <div class="admin-box" id="controlBox" style="display:none;">
+        <h2>إضافة عمل جديد</h2>
+        <input type="text" id="url" placeholder="رابط الصورة المباشر">
+        <input type="text" id="name" placeholder="اسم التصميم">
+        <button onclick="save()">نشر الآن</button>
+        <hr style="margin:20px 0;">
+        <h3>الأعمال الحالية (لحذف أي عمل)</h3>
+        <div id="list"></div>
+    </div>
+
+    <script>
+        const firebaseConfig = { databaseURL: "https://ded-el-kasr-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function checkPass() { if(document.getElementById('pass').value === "123") { document.getElementById('loginBox').style.display='none'; document.getElementById('controlBox').style.display='block'; load(); } }
+        function save() {
+            const url = document.getElementById('url').value;
+            const name = document.getElementById('name').value;
+            if(url) db.ref('works').push({ url, name }).then(() => { alert("تم النشر"); location.reload(); });
+        }
+        function load() {
+            db.ref('works').on('value', (s) => {
+                const list = document.getElementById('list'); list.innerHTML = '';
                 s.forEach((child) => {
-                    const data = child.val();
-                    list.innerHTML += `<div class="del-row">
-                        <span style="font-size:0.8rem">${data.name}</span>
-                        <button onclick="deleteIt('${child.key}')" style="color:red; border:none; background:none; cursor:pointer;">حذف</button>
-                    </div>`;
+                    list.innerHTML += `<div class="item-row"><span>${child.val().name}</span><button class="del-btn" onclick="del('${child.key}')">حذف</button></div>`;
                 });
             });
         }
-
-        function deleteIt(id) {
-            if(confirm("مسح؟")) db.ref('works').child(id).remove().then(() => loadAdminList());
-        }
+        function del(id) { if(confirm("حذف؟")) db.ref('works').child(id).remove(); }
     </script>
 </body>
 </html>
