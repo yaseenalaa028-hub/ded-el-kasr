@@ -8,13 +8,14 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --gold: #D4AF37;
             --white-glass: rgba(255, 255, 255, 0.98);
-            --dark: #000;
+            --dark-bg: #111;
+            --whatsapp: #25d366;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
@@ -26,20 +27,20 @@
             background: var(--white-glass); display: flex; 
             justify-content: space-between; align-items: center;
             z-index: 2000; border-bottom: 3px solid var(--gold);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .logo-box { font-size: 1.8rem; font-weight: 900; color: #000; letter-spacing: -1px; }
+        .logo-box { font-size: 1.8rem; font-weight: 900; color: #000; }
         .nav-left { display: flex; align-items: center; gap: 15px; }
-        .fb-link { color: #1877F2; font-size: 1.7rem; transition: 0.3s; }
+        .fb-link { color: #1877F2; font-size: 1.6rem; transition: 0.3s; }
         .btn-order { 
-            background: #25d366; color: #fff; padding: 10px 20px; 
+            background: var(--whatsapp); color: #fff; padding: 10px 22px; 
             border-radius: 50px; font-weight: 900; text-decoration: none; 
-            display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s;
+            display: flex; align-items: center; gap: 10px; font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); transition: 0.3s;
         }
-        .btn-order:hover { transform: scale(1.05); background: #1ebe57; }
+        .btn-order:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-        /* --- الهيرو سيكشن (صورة الشخص والمطبخ) --- */
+        /* --- Hero Section (الشخص والمطبخ) --- */
         .hero {
             height: 100vh; width: 100%;
             background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.1)), 
@@ -48,64 +49,71 @@
             display: flex; justify-content: center; align-items: center;
         }
         .hero-card {
-            background: rgba(255, 255, 255, 0.95); padding: 50px; 
+            background: rgba(255, 255, 255, 0.96); padding: 60px 40px; 
             border-radius: 40px; border: 2px solid var(--gold); 
             max-width: 850px; margin: 20px; text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
         }
         .hero-card h1 { font-size: clamp(2rem, 5vw, 3.5rem); color: #000; font-weight: 900; margin-bottom: 20px; }
-        .hero-card p { font-size: 1.2rem; color: #444; font-weight: 700; line-height: 1.8; }
+        .hero-card p { font-size: 1.25rem; color: #444; font-weight: 700; line-height: 1.9; }
 
         /* --- كروت المواصفات الطويلة --- */
-        .specs { padding: 80px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .specs { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
         .spec-card { 
-            background: #fff; padding: 70px 30px; border-radius: 30px; 
+            background: #fff; padding: 80px 35px; border-radius: 30px; 
             border: 1px solid #eee; text-align: center; min-height: 700px; 
             display: flex; flex-direction: column; justify-content: center; transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
         }
-        .spec-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .spec-card i { font-size: 4rem; color: var(--gold); margin-bottom: 30px; }
-        .spec-card h3 { font-size: 2rem; font-weight: 900; margin-bottom: 20px; color: #000; }
-        .spec-card p { font-size: 1.05rem; line-height: 1.9; color: #555; text-align: justify; }
+        .spec-card:hover { transform: translateY(-12px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .spec-card i { font-size: 4.5rem; color: var(--gold); margin-bottom: 30px; }
+        .spec-card h3 { font-size: 2.1rem; font-weight: 900; margin-bottom: 25px; color: #000; }
+        .spec-card p { font-size: 1.1rem; line-height: 2; color: #555; text-align: justify; }
 
-        /* --- المعرض (صورتين جنب بعض + زر واتساب لكل صورة) --- */
-        .section-title { text-align: center; font-size: 2.8rem; font-weight: 900; margin: 60px 0 40px; }
-        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 5% 100px; }
-        .work-card { background: #fff; border-radius: 20px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; }
-        .img-holder { height: 400px; width: 100%; cursor: pointer; overflow: hidden; }
-        .img-holder img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .work-card:hover .img-holder img { transform: scale(1.08); }
-        .work-footer { 
-            padding: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px;
-            border-top: 1px solid #f0f0f0;
+        /* --- معرض الأعمال (صورتين جنب بعض + واتساب لكل صورة) --- */
+        .section-title { text-align: center; font-size: 3rem; font-weight: 900; margin: 80px 0 50px; color: #000; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; padding: 0 5% 100px; }
+        .work-card { background: #fff; border-radius: 25px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .img-box { height: 450px; width: 100%; cursor: pointer; overflow: hidden; position: relative; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .work-card:hover .img-box img { transform: scale(1.1); }
+        .work-details { 
+            padding: 20px; text-align: center; background: #fff;
+            display: flex; flex-direction: column; gap: 12px;
         }
-        .work-footer span { font-weight: 700; color: #333; font-size: 0.9rem; }
+        .work-details h4 { font-weight: 900; font-size: 1.1rem; color: #222; }
         .btn-query { 
-            width: 100%; background: #25d366; color: #fff; padding: 12px; 
-            border-radius: 10px; text-decoration: none; display: flex; 
-            justify-content: center; align-items: center; gap: 8px; font-weight: 900; font-size: 0.85rem;
+            background: var(--whatsapp); color: #fff; padding: 14px; 
+            border-radius: 12px; text-decoration: none; display: flex; 
+            justify-content: center; align-items: center; gap: 10px; 
+            font-weight: 900; font-size: 0.95rem; transition: 0.3s;
         }
+        .btn-query:hover { background: #1ebe57; transform: translateY(-2px); }
 
-        /* --- الإمضاء العريض --- */
-        footer { background: #000; color: #fff; padding: 40px 5%; text-align: center; border-top: 5px solid var(--gold); }
-        .sig-text { font-size: 1.2rem; font-weight: 700; word-spacing: 4px; }
-        .sig-text span { color: var(--gold); }
+        /* --- الإمضاء بالعرض الكامل --- */
+        footer { 
+            background: #000; color: #fff; padding: 50px 5%; text-align: center; 
+            border-top: 6px solid var(--gold); width: 100%;
+        }
+        .sig { font-size: 1.3rem; font-weight: 700; word-spacing: 5px; }
+        .sig span { color: var(--gold); }
 
         /* --- نظام الإدارة المخفي --- */
         #adminPanel { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 5000; align-items: center; justify-content: center; }
-        .admin-modal { background: #fff; padding: 30px; border-radius: 20px; width: 90%; max-width: 450px; }
-        .admin-modal input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .admin-modal button { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        .admin-modal { background: #fff; padding: 40px; border-radius: 25px; width: 95%; max-width: 500px; }
+        .admin-modal input { width: 100%; padding: 14px; margin: 12px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; }
+        .admin-modal button { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; margin-top: 10px; font-size: 1.1rem; }
 
         /* --- Lightbox --- */
-        #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 6000; justify-content: center; align-items: center; padding: 20px; }
-        #lightbox img { max-width: 100%; max-height: 85vh; border: 3px solid var(--gold); border-radius: 10px; }
+        #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 6000; justify-content: center; align-items: center; padding: 20px; }
+        #lightbox img { max-width: 100%; max-height: 85vh; border: 4px solid var(--gold); border-radius: 15px; }
 
         @media (max-width: 768px) {
             .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .img-holder { height: 220px; }
-            .hero-card { padding: 30px 20px; }
-            .btn-query { font-size: 0.75rem; padding: 8px; }
+            .img-box { height: 250px; }
+            .hero-card { padding: 40px 20px; }
+            .btn-query { font-size: 0.7rem; padding: 10px; gap: 5px; }
+            .work-details h4 { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -114,7 +122,7 @@
     <header>
         <div class="logo-box">ضد الكسر</div>
         <div class="nav-left">
-            <a href="https://facebook.com/YOUR_PAGE" class="fb-link"><i class="fab fa-facebook"></i></a>
+            <a href="https://facebook.com/DED_EL_KASR" class="fb-link"><i class="fab fa-facebook"></i></a>
             <a href="https://wa.me/201144265938?text=أريد طلب معاينة لمطبخ" class="btn-order">
                 <i class="fab fa-whatsapp"></i> اطلب المعاينة
             </a>
@@ -124,29 +132,29 @@
     <section class="hero">
         <div class="hero-card">
             <h1>🛡️ ضد الكسر للمطابخ</h1>
-            <p>نصنع لك مطبخاً يجمع بين الفخامة الهندسية والتحمل الأبدي. بفضل نظام DOGGA SYSTEM، نضمن لك دقة 100% في التنفيذ، باستخدام أجود خامات الألمنيوم والرخام العالمي تحت إشراف نخبة من المهندسين.</p>
+            <p>نحن نصمم لك مطبخاً يجمع بين القوة الهندسية والجمال العصري. باستخدام نظام DOGGA SYSTEM المبتكر، نضمن لك جودة تقفيل عالمية وتخصيمات دقيقة بنسبة 100% تحت إشراف نخبة من المهندسين المتخصصين.</p>
         </div>
     </section>
 
     <section class="specs">
         <div class="spec-card">
-            <i class="fas fa-hammer"></i>
-            <h3>خامات صلبة</h3>
-            <p>ألومنيوم ثقيل معالج ضد الصدأ والرطوبة، مع إكسسوارات إيطالية تدوم طويلاً وتتحمل أقصى ظروف الاستخدام اليومي في المطبخ العربي.</p>
+            <i class="fas fa-tools"></i>
+            <h3>خامات صلبة وقوية</h3>
+            <p>نستخدم ألومنيوم ثقيل الوزن ومعالج ضد الرطوبة والحرارة العالية، مع إكسسوارات إيطالية وتركية أصلية ومفصلات هيدروليك ناعمة. مطبخك مصمم ليعيش سنوات طويلة دون صيانة، ليكون واجهة منزلك "ضد الكسر" فعلياً.</p>
         </div>
         <div class="spec-card">
-            <i class="fas fa-microchip"></i>
+            <i class="fas fa-pencil-ruler"></i>
             <h3>DOGGA SYSTEM</h3>
-            <p>ببرمجة المهندس ياسين علاء، نضمن لك تلاشي الأخطاء البشرية تماماً؛ حيث يتم التخصيم والتقطيع آلياً وبدقة متناهية لضمان تقفيل احترافي.</p>
+            <p>بفضل برمجة المهندس ياسين علاء، نستخدم نظام DOGGA لضمان دقة متناهية في حسابات التقطيع والتقفيل. هذا النظام يمنع أي أخطاء بشرية، ويضمن لك استلام منتج نهائي متناسق تماماً مع مساحة منزلك بكل احترافية ودقة متناهية.</p>
         </div>
         <div class="spec-card">
-            <i class="fas fa-crown"></i>
-            <h3>رخام فاخر</h3>
-            <p>تشكيلة من الجرانيت الطبيعي والكوارتز المقاوم للخدوش والبقع، بتركيب هندسي يمنع تسرب المياه نهائياً ويحافظ على مطبخك كأنه جديد.</p>
+            <i class="fas fa-gem"></i>
+            <h3>رخام وجرانيت فاخر</h3>
+            <p>أجود أنواع الجرانيت الطبيعي والكوارتز المقاوم للخدوش والبقع، بتشطيب "لمعة المرايا". نستخدم تقنيات دمج تمنع تسرب المياه نهائياً، مما يحافظ على نظافة الوحدات وعمر المطبخ الافتراضي لأقصى درجة ممكنة.</p>
         </div>
     </section>
 
-    <h2 class="section-title">أحدث أعمالنا المنفذة</h2>
+    <h2 class="section-title">أحدث أعمالنا</h2>
     <div class="gallery-grid" id="mainGallery">
         </div>
 
@@ -154,17 +162,17 @@
 
     <div id="adminPanel">
         <div class="admin-modal">
-            <h3>لوحة إدارة الأعمال</h3>
-            <input type="text" id="inpUrl" placeholder="رابط الصورة">
-            <input type="text" id="inpName" placeholder="اسم العمل">
-            <button onclick="saveWork()">نشر الآن</button>
-            <div id="adminDelList" style="max-height:150px; overflow-y:auto; margin-top:15px; border-top:1px solid #eee;"></div>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; color:gray; font-weight:400;">إغلاق</button>
+            <h2 style="margin-bottom:10px;">لوحة إدارة الأعمال</h2>
+            <input type="text" id="inpUrl" placeholder="رابط الصورة المباشر">
+            <input type="text" id="inpName" placeholder="اسم المطبخ (مثلاً: موديل كلاسيك)">
+            <button onclick="saveWork()">نشر العمل الآن</button>
+            <div id="adminDelList" style="max-height:200px; overflow-y:auto; margin-top:20px; border-top:1px solid #eee;"></div>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; color:gray; font-size:0.9rem; margin-top:10px;">إغلاق</button>
         </div>
     </div>
 
-    <footer style="width: 100%;">
-        <div class="sig-text">
+    <footer>
+        <div class="sig">
             تصميم المهندس <span>ياسين علاء</span> والمهندس <span>أحمد السيد</span> © 2026 - جميع الحقوق محفوظة لشركة ضد الكسر
         </div>
     </footer>
@@ -174,7 +182,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // عرض الصور مع ميزة الاستفسار عبر واتساب لكل صورة
+        // تحميل الصور مع أزرار واتساب ذكية لكل صورة
         db.ref('works').on('value', (snapshot) => {
             const grid = document.getElementById('mainGallery');
             grid.innerHTML = '';
@@ -182,12 +190,12 @@
                 const data = child.val();
                 grid.innerHTML += `
                     <div class="work-card">
-                        <div class="img-holder" onclick="openLightbox('${data.url}')">
+                        <div class="img-box" onclick="openLightbox('${data.url}')">
                             <img src="${data.url}" loading="lazy">
                         </div>
-                        <div class="work-footer">
-                            <span>${data.name}</span>
-                            <a href="https://wa.me/201144265938?text=استفسار عن مطبخ: ${data.name}" class="btn-query">
+                        <div class="work-details">
+                            <h4>${data.name}</h4>
+                            <a href="https://wa.me/201144265938?text=استفسار بخصوص مطبخ: ${data.name}" class="btn-query">
                                 <i class="fab fa-whatsapp"></i> الاستفسار عن المطبخ
                             </a>
                         </div>
@@ -200,9 +208,9 @@
             document.getElementById('lightbox').style.display = 'flex';
         }
 
-        // نظام الإدارة المخفي (ضغطتين)
+        // لوحة التحكم (Double Click في أي مكان فاضي)
         function openAdmin() {
-            if(prompt("باسورد المهندس:") === "123") {
+            if(prompt("كلمة سر المهندس:") === "123") {
                 document.getElementById('adminPanel').style.display = 'flex';
                 loadAdminList();
             }
@@ -211,7 +219,7 @@
         function saveWork() {
             const url = document.getElementById('inpUrl').value;
             const name = document.getElementById('inpName').value || "موديل جديد";
-            if(!url) return alert("ضع الرابط");
+            if(!url) return alert("يرجى وضع رابط الصورة");
             db.ref('works').push({ url, name }).then(() => {
                 document.getElementById('inpUrl').value = '';
                 document.getElementById('inpName').value = '';
@@ -223,15 +231,15 @@
             db.ref('works').on('value', (snapshot) => {
                 list.innerHTML = '';
                 snapshot.forEach((child) => {
-                    list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #f0f0f0;">
+                    list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #f0f0f0;">
                         <span style="font-size:0.8rem">${child.val().name}</span>
-                        <button onclick="deleteWork('${child.key}')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                        <button onclick="deleteWork('${child.key}')" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">حذف</button>
                     </div>`;
                 });
             });
         }
 
-        function deleteWork(id) { if(confirm("حذف؟")) db.ref('works').child(id).remove(); }
+        function deleteWork(id) { if(confirm("هل أنت متأكد من الحذف؟")) db.ref('works').child(id).remove(); }
     </script>
 </body>
 </html>
