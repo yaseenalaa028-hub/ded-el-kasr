@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DED EL KASR | ضد الكسر للمطابخ والرخام</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(212, 175, 55, 0.3);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: #fff; margin: 0; overflow-x: hidden; }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(15px);
+            z-index: 2000; border-bottom: 1px solid var(--border);
+        }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--gold); text-decoration: none; text-shadow: 0 0 15px rgba(212,175,55,0.3); }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: var(--transition); }
+        .nav-links a:hover { color: var(--gold); transform: translateY(-2px); }
+        
+        .social-icons { display: flex; gap: 12px; }
+        .social-icons a { 
+            width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center; color: var(--gold); 
+            text-decoration: none; transition: var(--transition); font-size: 1.2rem;
+        }
+        .social-icons a:hover { background: var(--gold); color: #000; transform: scale(1.1) rotate(360deg); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=2070') center/cover no-repeat fixed;
+            text-align: center;
+        }
+        .hero-content h1 { font-size: clamp(3.5rem, 9vw, 7rem); font-weight: 900; color: var(--gold); margin: 0; line-height: 1.1; }
+        .hero-content p { font-size: 1.3rem; max-width: 800px; margin: 25px auto; color: #ddd; line-height: 1.8; }
+
+        /* Info Sections */
+        .mega-info { padding: 100px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .info-card { 
+            background: var(--glass); padding: 50px 30px; border-radius: 35px; 
+            border: 1px solid var(--border); text-align: center; transition: var(--transition);
+        }
+        .info-card:hover { background: rgba(212,175,55,0.05); transform: translateY(-10px); }
+        .info-card i { font-size: 3.5rem; color: var(--gold); margin-bottom: 25px; display: block; }
+        .info-card h3 { color: var(--gold); font-size: 1.8rem; margin-bottom: 15px; }
+        .info-card p { color: #ccc; line-height: 2; font-size: 1.05rem; }
+
+        /* Gallery Grid */
+        .section-title { text-align: center; font-size: 3rem; color: var(--gold); margin: 80px 0 50px; font-weight: 900; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; padding: 0 5%; margin-bottom: 80px; }
+        .item { position: relative; border-radius: 40px; overflow: hidden; height: 450px; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .item img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
+        .item:hover img { transform: scale(1.15); filter: brightness(0.3); }
+        
+        .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.5s; background: rgba(0,0,0,0.8); }
+        .item:hover .overlay { opacity: 1; }
+        .overlay h3 { font-size: 2rem; color: var(--gold); margin-bottom: 20px; transform: translateY(20px); transition: 0.5s; }
+        .item:hover .overlay h3 { transform: translateY(0); }
+
+        .btn-action { 
+            padding: 12px 30px; background: var(--gold); color: #000; 
+            text-decoration: none; border-radius: 50px; font-weight: 900; 
+            margin: 5px; display: inline-block; transition: 0.3s;
+        }
+        .btn-action:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+
+        /* Admin Panel */
+        #adminPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.97); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        .admin-form { background: #fff; color: #000; padding: 40px; border-radius: 30px; width: 95%; max-width: 450px; }
+        input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #ddd; font-size: 1rem; }
+
+        .footer { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); background: #000; }
+        
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body ondblclick="openAdmin()">
+
+    <header>
+        <a href="#" class="logo">ضد الكسر | DED EL KASR</a>
+        <nav class="nav-links">
+            <a href="#home">الرئيسية</a>
+            <a href="#about">الخبرة الهندسية</a>
+            <a href="#gallery">معرض المطابخ</a>
+            <a href="#marbleSection">عالم الرخام</a>
+            <a href="#reviews">آراء العملاء</a>
+        </nav>
+        <div class="social-icons">
+            <a href="https://wa.me/201144265938" target="_blank" title="تواصل واتساب"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/share/1BNDdjqHwC/" target="_blank" title="تابعنا على فيسبوك"><i class="fab fa-facebook-f"></i></a>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>إبداع المطابخ والرخام</h1>
+            <p>نحن في "ضد الكسر" نجمع بين صلابة الألمنيوم وفخامة الرخام الطبيعي. تصميماتنا تحت إشراف المهندس ياسين علاء تضمن لك مطبخاً هو قطعة ديكور فريدة تدوم للأبد.</p>
+            <div style="margin-top: 30px;">
+                <a href="#gallery" class="btn-action">مشاهدة الأعمال</a>
+                <a href="https://wa.me/201144265938" class="btn-action" style="background:none; border:1px solid var(--gold); color:var(--gold);">اطلب معاينة</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="mega-info" id="about">
+        <div class="info-card">
+            <i class="fas fa-screwdriver-wrench"></i>
+            <h3>مطابخ ألومنيوم فخمة</h3>
+            <p>نستخدم أجود قطاعات الألمنيوم السعودية والكلادينج الدابل. تصميماتنا تمنع دخول الحشرات، تقاوم الرطوبة بنسبة 100%.</p>
+        </div>
+        <div class="info-card">
+            <i class="fas fa-gem"></i>
+            <h3>فن الرخام والجرانيت</h3>
+            <p>الرخام هو روح المطبخ. نوفر أجود أنواع الرخام الطبيعي والجرانيت المستورد بتشطيبات احترافية.</p>
+        </div>
+        <div class="info-card">
+            <i class="fas fa-microchip"></i>
+            <h3>دقة برمجية</h3>
+            <p>بفضل خبرتنا، نقوم بحساب تخصيمات الوحدات بدقة متناهية، مما يضمن تركيباً مثالياً واستغلالاً ذكياً لكل سنتيمتر.</p>
+        </div>
+    </section>
+
+    <div id="gallery"><h2 class="section-title">أحدث أعمال المطابخ</h2><div class="grid" id="kitchenGrid"></div></div>
+    <div id="marbleSection"><h2 class="section-title">إبداعات الرخام</h2><div class="grid" id="marbleGrid"></div></div>
+    <div id="reviews"><h2 class="section-title">آراء شركاء النجاح</h2><div class="grid" id="reviewGrid"></div></div>
+
+    <div id="adminPanel">
+        <div class="admin-form">
+            <h3 style="text-align:center; margin-bottom:20px;">إضافة إبداع جديد للسيرفر</h3>
+            <select id="upCat">
+                <option value="kitchen">مطبخ جديد</option>
+                <option value="marble">شغل رخام</option>
+                <option value="review">رأي عميل (سكرين شوت)</option>
+            </select>
+            <input type="text" id="upUrl" placeholder="رابط الصورة المباشر (ImgBB)">
+            <input type="text" id="upName" placeholder="عنوان العمل / اسم الموديل">
+            <button onclick="saveItem()" style="width:100%; padding:15px; background:var(--gold); border:none; font-weight:900; cursor:pointer; border-radius:12px; margin-top:10px;">نشر العمل الآن</button>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="width:100%; background:none; border:none; color:red; margin-top:15px; cursor:pointer; font-weight:bold;">إلغاء وإغلاق</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <h2 style="color: var(--gold); margin-bottom: 20px;">ضد الكسر | DED EL KASR</h2>
+        <p style="color: #888;">تصميم وتنفيذ المنظومة الذكية - المهندس ياسين علاء © 2026</p>
+    </footer>
+
+    <script>
+        // إعدادات Firebase الخاصة بالمهندس ياسين
+        const firebaseConfig = {
+            apiKey: "AIzaSyBD3Lj32-H5N7jHdibj_TfaG2zK8doDGT8",
+            authDomain: "ded-el-kasr.firebaseapp.com",
+            projectId: "ded-el-kasr",
+            databaseURL: "https://ded-el-kasr-default-rtdb.firebaseio.com/",
+            storageBucket: "ded-el-kasr.firebasestorage.app",
+            messagingSenderId: "1052186540982",
+            appId: "1:1052186540982:web:4a82b751691dd880481f17"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function openAdmin() {
+            if(prompt("كلمة سر الإدارة (المهندس ياسين):") === "123") {
+                document.getElementById('adminPanel').style.display = 'flex';
+            }
+        }
+
+        function saveItem() {
+            const url = document.getElementById('upUrl').value;
+            const cat = document.getElementById('upCat').value;
+            const name = document.getElementById('upName').value || "تصميم إبداعي";
+            if(!url) return alert("من فضلك حط رابط الصورة أولاً");
+
+            database.ref('works').push({ url, cat, name, time: Date.now() }).then(() => {
+                alert("تم النشر بنجاح على السيرفر!");
+                location.reload();
+            });
+        }
+
+        database.ref('works').on('value', (snap) => {
+            document.getElementById('kitchenGrid').innerHTML = '';
+            document.getElementById('marbleGrid').innerHTML = '';
+            document.getElementById('reviewGrid').innerHTML = '';
+            
+            snap.forEach((child) => {
+                const i = child.val();
+                const target = i.cat === 'kitchen' ? 'kitchenGrid' : (i.cat === 'marble' ? 'marbleGrid' : 'reviewGrid');
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerHTML = `
+                    <img src="${i.url}">
+                    <div class="overlay">
+                        <h3>${i.name}</h3>
+                        <div>
+                            <a href="https://wa.me/201144265938?text=استفسار عن: ${i.name}" target="_blank" class="btn-action">واتساب</a>
+                        </div>
+                        <button onclick="delItem('${child.key}')" style="background:none; border:none; color:#ff4444; margin-top:30px; cursor:pointer; font-weight:bold;">❌ حذف من السيرفر</button>
+                    </div>`;
+                document.getElementById(target).appendChild(div);
+            });
+        });
+
+        function delItem(key) {
+            if(confirm("هل أنت متأكد من حذف هذا العمل نهائياً؟")) {
+                database.ref('works').child(key).remove();
+            }
+        }
+    </script>
+</body>
+</html>
