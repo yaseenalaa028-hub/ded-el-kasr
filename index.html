@@ -14,229 +14,220 @@
         :root {
             --gold: #D4AF37;
             --dark: #0a0a0a;
-            --gray: #1a1a1a;
-            --text: #e0e0e0;
-            --border: rgba(212, 175, 55, 0.2);
-            --transition: all 0.4s ease;
+            --gray: #151515;
+            --border: rgba(212, 175, 55, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
-        body { background-color: var(--dark); color: white; line-height: 1.6; overflow-x: hidden; }
+        body { background-color: var(--dark); color: white; overflow-x: hidden; }
 
-        /* --- الهيدر (القائمة العلوية) --- */
+        /* --- الهيدر الاحترافي --- */
         header {
             position: fixed; top: 0; width: 100%; padding: 15px 5%;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);
             z-index: 2000; border-bottom: 1px solid var(--border);
         }
-        .logo-area { display: flex; align-items: center; gap: 20px; }
-        .logo-text { font-size: 1.6rem; font-weight: 900; color: var(--gold); text-decoration: none; }
+        .logo-box { display: flex; align-items: center; gap: 20px; }
+        .logo-name { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-decoration: none; }
         
-        .social-icons a { color: white; margin-left: 15px; font-size: 1.2rem; transition: var(--transition); }
-        .social-icons a:hover { color: var(--gold); transform: translateY(-3px); }
+        .social-nav a { color: white; margin-right: 15px; font-size: 1.3rem; transition: 0.3s; }
+        .social-nav a:hover { color: var(--gold); }
 
-        .btn-request { 
+        .btn-order-main { 
             background: var(--gold); color: black; padding: 10px 25px; 
-            border-radius: 8px; font-weight: 900; text-decoration: none; 
-            font-size: 0.9rem; transition: var(--transition);
+            border-radius: 10px; font-weight: 900; text-decoration: none; 
+            font-size: 0.9rem; animation: pulse 2s infinite;
         }
-        .btn-request:hover { background: #b8952d; transform: scale(1.05); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* --- واجهة الموقع (Hero) --- */
+        /* --- قسم واجهة الموقع --- */
         .hero {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=2070') center/cover no-repeat fixed;
-            text-align: center; padding: 0 20px;
+            height: 70vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=2070') center/cover;
+            text-align: center; border-bottom: 2px solid var(--border);
         }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; color: var(--gold); margin-bottom: 20px; }
-        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 30px; color: #ccc; }
-
-        /* --- أقسام الخدمات --- */
-        .services { padding: 80px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .s-box { background: var(--gray); padding: 40px; border-radius: 20px; border: 1px solid var(--border); text-align: center; }
-        .s-box i { font-size: 3rem; color: var(--gold); margin-bottom: 20px; }
-        .s-box h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); }
+        .hero h1 { font-size: 3.5rem; font-weight: 900; color: var(--gold); }
 
         /* --- معرض الأعمال --- */
-        .gallery-container { padding: 80px 5%; }
-        .section-title { text-align: center; font-size: 2.5rem; color: var(--gold); margin-bottom: 50px; font-weight: 900; }
-        
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .work-card { position: relative; border-radius: 20px; overflow: hidden; height: 400px; border: 1px solid var(--border); }
-        .work-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-        .work-card:hover img { transform: scale(1.1); filter: brightness(0.4); }
-        
-        .work-info { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; text-align: center; padding: 20px; }
-        .work-card:hover .work-info { opacity: 1; }
-        .work-info h4 { font-size: 1.8rem; color: var(--gold); margin-bottom: 10px; }
+        .gallery-section { padding: 80px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card { position: relative; border-radius: 20px; overflow: hidden; height: 400px; border: 1px solid var(--border); }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .card:hover img { transform: scale(1.1); filter: brightness(0.5); }
+        .card-info { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; background: rgba(0,0,0,0.4); }
+        .card:hover .card-info { opacity: 1; }
+        .card-info h3 { color: var(--gold); font-size: 1.8rem; }
 
-        /* --- لوحة تحكم المهندس (Admin) --- */
-        #adminOverlay { 
+        /* --- لوحة تحكم المهندس ياسين --- */
+        #adminPanel { 
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); 
             z-index: 9999; align-items: center; justify-content: center; padding: 20px;
         }
-        .admin-modal { 
-            background: white; color: #333; padding: 40px; border-radius: 25px; 
-            width: 100%; max-width: 550px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        .dashboard { 
+            background: white; color: #333; padding: 40px; border-radius: 30px; 
+            width: 100%; max-width: 600px; height: 85vh; overflow-y: auto;
         }
-        .admin-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #eee; }
-        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 700; cursor: pointer; font-size: 1rem; }
+        .tabs-header { display: flex; border-bottom: 2px solid #eee; margin-bottom: 25px; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: 900; cursor: pointer; color: #888; }
         .tab-btn.active { border-bottom: 4px solid var(--gold); color: var(--gold); }
 
-        .admin-modal input, .admin-modal select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 1px solid #ddd; font-weight: 600; }
-        .btn-main { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 10px; font-weight: 900; font-size: 1.1rem; cursor: pointer; }
+        .form-group { margin-bottom: 20px; }
+        input, select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin-top: 5px; font-weight: 600; }
+        .btn-submit { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; font-size: 1.1rem; cursor: pointer; }
 
-        .delete-scroll { max-height: 250px; overflow-y: auto; margin-top: 15px; border: 1px solid #eee; border-radius: 10px; }
-        .delete-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
-        .btn-del { color: #ff4444; border: none; background: none; cursor: pointer; font-weight: bold; }
+        /* --- إدارة الحذف --- */
+        .delete-manager { margin-top: 20px; }
+        .switch-container { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        .delete-list { border: 1px solid #eee; border-radius: 12px; max-height: 300px; overflow-y: auto; }
+        .delete-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+        .btn-trash { color: #ff4444; cursor: pointer; background: none; border: none; font-size: 1.1rem; }
 
-        /* --- أزرار التواصل العائمة --- */
-        .wa-float { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: white; text-decoration: none; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        /* --- الأزرار العائمة --- */
+        .wa-float { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: white; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        /* --- التذييل (Footer) --- */
-        footer { padding: 60px 5%; background: #000; border-top: 1px solid var(--border); text-align: center; }
-        .footer-logo { color: var(--gold); font-size: 2rem; font-weight: 900; margin-bottom: 15px; }
+        footer { padding: 40px; text-align: center; border-top: 1px solid var(--border); margin-top: 50px; }
     </style>
 </head>
-<body ondblclick="openAdmin()">
+<body ondblclick="unlockAdmin()">
 
     <header>
-        <div class="logo-area">
-            <a href="#" class="logo-text">ضد الكسر | DED EL KASR</a>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
+        <div class="logo-box">
+            <a href="#" class="logo-name">DED EL KASR</a>
+            <div class="social-nav">
+                <a href="https://facebook.com/YOUR_PAGE"><i class="fab fa-facebook"></i></a>
                 <a href="https://wa.me/201144265938"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
-        <a href="https://wa.me/201144265938?text=أريد طلب معاينة لمطبخ" class="btn-request">اطلب المعاينة الآن</a>
+        <a href="https://wa.me/201144265938?text=أريد طلب معاينة لمطبخ" class="btn-order-main">اطلب المعاينة الآن</a>
     </header>
 
-    <section class="hero" id="home">
+    <section class="hero">
         <div>
-            <h1>مطبخك.. تحفة هندسية</h1>
-            <p>نصمم وننفذ أرقى المطابخ الألمنيوم والرخام بأعلى معايير الجودة، مع ضمان حقيقي ضد الكسر.</p>
-            <a href="#works" class="btn-request" style="padding: 15px 40px; font-size: 1.1rem;">تصفح المعرض</a>
+            <h1>ضد الكسر للمطابخ</h1>
+            <p>إبداع في التصميم.. دقة في التنفيذ</p>
         </div>
     </section>
 
-    <section class="services">
-        <div class="s-box"><i class="fas fa-drafting-pencil"></i><h3>تصميم 3D</h3><p>تخيل مطبخك قبل التنفيذ بدقة الـ DOGGA SYSTEM.</p></div>
-        <div class="s-box"><i class="fas fa-hammer"></i><h3>متانة قصوى</h3><p>ألمنيوم ثقيل واكسسوارات أصلية تعيش العمر كله.</p></div>
-        <div class="s-box"><i class="fas fa-gem"></i><h3>رخام فاخر</h3><p>أرقى أنواع الجرانيت والرخام الطبيعي والصناعي.</p></div>
+    <section class="gallery-section">
+        <h2 style="text-align:center; color:var(--gold); margin-bottom:50px; font-size:2.5rem;">معرض الأعمال الحديثة</h2>
+        <div class="grid" id="mainGallery"></div>
     </section>
 
-    <section class="gallery-container" id="works">
-        <h2 class="section-title">معرض أعمال المهندس ياسين علاء</h2>
-        <div class="gallery-grid" id="mainGrid">
-            </div>
-    </section>
-
-    <div id="adminOverlay">
-        <div class="admin-modal">
-            <div class="admin-tabs">
-                <button class="tab-btn active" id="tabAdd" onclick="showTab('add')">إضافة عمل جديد</button>
-                <button class="tab-btn" id="tabManage" onclick="showTab('manage')">إدارة الحذف</button>
+    <div id="adminPanel">
+        <div class="dashboard">
+            <h2 style="text-align:center; margin-bottom:20px;">إعدادات الموقع (خاص)</h2>
+            
+            <div class="tabs-header">
+                <button class="tab-btn active" id="tabAdd" onclick="toggleTab('add')">إضافة أعمال</button>
+                <button class="tab-btn" id="tabDel" onclick="toggleTab('del')">إدارة الحذف</button>
             </div>
 
-            <div id="sectionAdd">
-                <input type="text" id="inpUrl" placeholder="رابط الصورة المباشر من ImgBB">
-                <input type="text" id="inpName" placeholder="اسم التصميم (مثال: مطبخ مودرن)">
-                <button class="btn-main" onclick="saveNewWork()">نشر في المعرض الآن</button>
+            <div id="addSection">
+                <div class="form-group">
+                    <label>رابط الصورة المباشر</label>
+                    <input type="text" id="inpUrl" placeholder="https://i.ibb.co/..../image.jpg">
+                </div>
+                <div class="form-group">
+                    <label>اسم العمل</label>
+                    <input type="text" id="inpName" placeholder="مثال: مطبخ ألمنيوم دبل">
+                </div>
+                <button class="btn-submit" onclick="publishWork()">نشر العمل الآن</button>
             </div>
 
-            <div id="sectionManage" style="display:none;">
-                <p style="font-size: 0.9rem; margin-bottom: 10px; color: #666;">اختر العمل الذي تريد حذفه نهائياً:</p>
-                <div class="delete-scroll" id="deleteList"></div>
+            <div id="delSection" style="display:none;">
+                <div class="switch-container">
+                    <span><b>تفعيل خاصية الحذف:</b></span>
+                    <input type="checkbox" id="delToggle" style="width:30px; height:30px; cursor:pointer;">
+                </div>
+                <div class="delete-list" id="delListItems">
+                    </div>
             </div>
 
-            <button onclick="closeAdmin()" style="width:100%; margin-top:20px; border:none; background:none; color:#888; cursor:pointer; font-weight:bold;">خروج من الإعدادات</button>
+            <button onclick="closeAdmin()" style="width:100%; margin-top:20px; background:none; border:none; color:#999; cursor:pointer; font-weight:bold;">إغلاق الإعدادات</button>
         </div>
     </div>
 
     <a href="https://wa.me/201144265938" class="wa-float"><i class="fab fa-whatsapp"></i></a>
 
     <footer>
-        <div class="footer-logo">DED EL KASR</div>
-        <p>تصميم م/ ياسين علاء & م/ أحمد السيد</p>
-        <p style="margin-top: 10px; color: #555;">جميع الحقوق محفوظة © 2026</p>
+        <p>جميع الحقوق محفوظة © 2026 | ضد الكسر - م/ ياسين علاء</p>
     </footer>
 
     <script>
-        // إعدادات Firebase الخاصة بمشروعك
-        const firebaseConfig = {
-            databaseURL: "https://ded-el-kasr-default-rtdb.firebaseio.com/"
-        };
-        firebase.initializeApp(firebaseConfig);
+        // إعدادات السيرفر الخاص بك
+        const fbConfig = { databaseURL: "https://ded-el-kasr-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(fbConfig);
         const db = firebase.database();
 
-        // فتح لوحة التحكم بالباسورد
-        function openAdmin() {
-            if(prompt("رمز دخول الإدارة:") === "123") {
-                document.getElementById('adminOverlay').style.display = 'flex';
-                loadManageList();
+        // فك قفل الإدارة
+        function unlockAdmin() {
+            let pass = prompt("من فضلك أدخل كلمة السر الخاصة بك:");
+            if(pass === "123") {
+                document.getElementById('adminPanel').style.display = 'flex';
+                fetchDeleteList();
             }
         }
-        function closeAdmin() { document.getElementById('adminOverlay').style.display = 'none'; }
 
-        // التبديل بين الإضافة والحذف
-        function showTab(type) {
-            document.getElementById('sectionAdd').style.display = type === 'add' ? 'block' : 'none';
-            document.getElementById('sectionManage').style.display = type === 'manage' ? 'block' : 'none';
-            document.getElementById('tabAdd').classList.toggle('active', type === 'add');
-            document.getElementById('tabManage').classList.toggle('active', type === 'manage');
+        function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
+
+        // التبديل بين التبويبات
+        function toggleTab(mode) {
+            document.getElementById('addSection').style.display = mode === 'add' ? 'block' : 'none';
+            document.getElementById('delSection').style.display = mode === 'del' ? 'block' : 'none';
+            document.getElementById('tabAdd').classList.toggle('active', mode === 'add');
+            document.getElementById('tabDel').classList.toggle('active', mode === 'del');
         }
 
-        // حفظ عمل جديد
-        function saveNewWork() {
+        // رفع عمل جديد
+        function publishWork() {
             const url = document.getElementById('inpUrl').value;
             const name = document.getElementById('inpName').value || "تصميم جديد";
-            if(!url.startsWith('http')) return alert("يرجى إدخال رابط صحيح");
-
+            if(!url.includes('http')) return alert("يرجى إدخال رابط صورة صحيح!");
+            
             db.ref('works').push({ url, name }).then(() => {
-                alert("تم النشر بنجاح!");
-                document.getElementById('inpUrl').value = '';
+                alert("تم رفع العمل بنجاح!");
                 location.reload();
             });
         }
 
-        // عرض المعرض للجمهور (بدون أزرار حذف)
-        db.ref('works').on('value', (snapshot) => {
-            const grid = document.getElementById('mainGrid');
-            grid.innerHTML = '';
-            snapshot.forEach((child) => {
+        // عرض الصور للزوار (بدون أي أزرار حذف)
+        db.ref('works').on('value', (s) => {
+            const gallery = document.getElementById('mainGallery');
+            gallery.innerHTML = '';
+            s.forEach((child) => {
                 const data = child.val();
-                grid.innerHTML += `
-                    <div class="work-card">
+                gallery.innerHTML += `
+                    <div class="card">
                         <img src="${data.url}">
-                        <div class="work-info">
-                            <h4>${data.name}</h4>
-                            <p>ضد الكسر للمطابخ</p>
-                        </div>
+                        <div class="card-info"><h3>${data.name}</h3></div>
                     </div>`;
             });
         });
 
-        // تحميل قائمة الحذف في لوحة التحكم فقط
-        function loadManageList() {
-            const listDiv = document.getElementById('deleteList');
-            listDiv.innerHTML = '<p style="padding:10px">جاري التحميل...</p>';
-            db.ref('works').once('value', (snapshot) => {
+        // قايمة الحذف جوه لوحة التحكم فقط
+        function fetchDeleteList() {
+            const listDiv = document.getElementById('delListItems');
+            listDiv.innerHTML = '<p style="padding:15px;">جاري التحميل...</p>';
+            db.ref('works').once('value', (s) => {
                 listDiv.innerHTML = '';
-                snapshot.forEach((child) => {
+                s.forEach((child) => {
                     const data = child.val();
                     listDiv.innerHTML += `
-                        <div class="delete-item">
+                        <div class="delete-row">
                             <span>${data.name}</span>
-                            <button class="btn-del" onclick="deleteWork('${child.key}')">حذف 🗑️</button>
+                            <button onclick="confirmDel('${child.key}')" class="btn-trash"><i class="fas fa-trash-alt"></i></button>
                         </div>`;
                 });
             });
         }
 
-        function deleteWork(id) {
-            if(confirm("هل أنت متأكد من حذف هذا العمل؟")) {
-                db.ref('works').child(id).remove().then(() => loadManageList());
+        function confirmDel(id) {
+            const isEnabled = document.getElementById('delToggle').checked;
+            if(!isEnabled) return alert("من فضلك قم بتفعيل مفتاح الحذف أولاً!");
+            
+            if(confirm("هل تريد حذف هذا العمل نهائياً؟")) {
+                db.ref('works').child(id).remove().then(() => fetchDeleteList());
             }
         }
     </script>
