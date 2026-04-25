@@ -22,13 +22,14 @@
         
         body { 
             color: white; overflow-x: hidden;
-            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.92)), 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
                         url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=2070');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
+        /* --- الهيدر --- */
         header {
             position: fixed; top: 0; width: 100%; padding: 12px 5%;
             background: rgba(0,0,0,0.95); backdrop-filter: blur(10px);
@@ -36,11 +37,11 @@
             z-index: 2000; border-bottom: 1px solid var(--border);
         }
         .logo-box { font-size: 1.5rem; font-weight: 900; color: var(--gold); }
-        .social-links a { color: white; margin-right: 15px; font-size: 1.2rem; transition: 0.3s; }
+        .social-links a { color: white; margin-right: 15px; font-size: 1.2rem; transition: var(--transition); }
         .social-links a:hover { color: var(--gold); }
         .btn-order { background: var(--gold); color: black; padding: 8px 18px; border-radius: 8px; font-weight: 900; text-decoration: none; font-size: 0.9rem; }
 
-        /* --- الرول المتحرك (متجاوب) --- */
+        /* --- الرول المتحرك --- */
         .main-marquee {
             margin-top: 70px; background: var(--gold); color: black; 
             padding: 15px 0; overflow: hidden; white-space: nowrap; font-weight: 900;
@@ -50,27 +51,41 @@
         .marquee-container span { margin: 0 40px; font-size: 1.1rem; }
         @keyframes scroll-text { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* --- كروت المواصفات (طويلة ودلع) --- */
+        /* --- كروت المواصفات (طويلة بوضوح والكلام كبير بوضوح) --- */
         .specs-section { 
             padding: 80px 5%; display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
             gap: 30px; 
         }
         .spec-item { 
-            background: var(--dark-glass); padding: 60px 30px; border-radius: 25px; 
-            border: 1px solid var(--border); text-align: center; backdrop-filter: blur(8px);
-            transition: var(--transition); min-height: 480px;
+            background: var(--dark-glass); padding: 80px 30px; /* زودنا الحشو الداخلي جداً */
+            border-radius: 25px; 
+            border: 2px solid var(--border); /* خلينا البرواز أوضح */
+            text-align: center; backdrop-filter: blur(8px);
+            transition: var(--transition); 
+            height: 600px; /* ده اللي هيخلي الخانات طويلة بوضوح */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         .spec-item:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.1); }
-        .spec-item i { font-size: 3.5rem; color: var(--gold); margin-bottom: 25px; }
-        .spec-item h3 { font-size: 1.8rem; margin-bottom: 15px; color: var(--gold); font-weight: 900; }
-        .spec-item p { font-size: 1.1rem; line-height: 1.8; color: #eee; }
+        .spec-item i { font-size: 4rem; /* كبرنا الأيقونات جداً */ color: var(--gold); margin-bottom: 30px; }
+        
+        .spec-item h3 { 
+            font-size: 2.2rem; /* كبرنا العناوين جداً */
+            margin-bottom: 25px; 
+            color: var(--gold); 
+            font-weight: 900;
+        }
+        .spec-item p { 
+            font-size: 1.25rem; /* كبرنا وصف الكلام جداً */
+            line-height: 2; /* وسعنا المسافات بين السطور جداً */
+            color: #eee; 
+            font-weight: 600;
+        }
 
         /* --- معرض الأعمال --- */
-        .gallery-title { text-align: center; margin: 40px 0; font-size: 2.5rem; color: var(--gold); font-weight: 900; }
+        .gallery-title { text-align: center; margin: 40px 0; font-size: 2.8rem; color: var(--gold); font-weight: 900; }
         .gallery-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
             gap: 25px; padding: 0 5% 80px; 
         }
         .work-card { 
@@ -90,23 +105,11 @@
         #lightbox img { max-width: 100%; max-height: 90vh; border-radius: 10px; border: 2px solid var(--gold); }
         .close-lightbox { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
 
-        /* --- لوحة التحكم --- */
-        #adminPanel { 
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); 
-            z-index: 4000; align-items: center; justify-content: center; padding: 20px;
-        }
-        .admin-modal { background: white; color: black; padding: 30px; border-radius: 20px; width: 100%; max-width: 500px; }
-        .admin-tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 900; cursor: pointer; color: #666; }
-        .tab-btn.active { border-bottom: 3px solid var(--gold); color: var(--gold); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; }
-        .btn-action { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
-
-        /* موبايل */
+        /* موبايل (لضبط الكلام متطلعش بره) */
         @media (max-width: 768px) {
-            .spec-item { min-height: 400px; padding: 40px 20px; }
-            .spec-item h3 { font-size: 1.5rem; }
-            .spec-item p { font-size: 1rem; }
+            .spec-item { height: auto; min-height: 500px; padding: 60px 20px; }
+            .spec-item h3 { font-size: 1.8rem; }
+            .spec-item p { font-size: 1.1rem; line-height: 1.8; }
             .logo-box { font-size: 1.2rem; }
         }
 
@@ -118,7 +121,7 @@
     <header>
         <div class="logo-box">ضد الكسر</div>
         <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="https://facebook.com/YOUR_PAGE_LINK"><i class="fab fa-facebook"></i></a>
             <a href="https://wa.me/201144265938"><i class="fab fa-whatsapp"></i></a>
             <a href="https://wa.me/201144265938" class="btn-order">اطلب المعاينة</a>
         </div>
@@ -140,21 +143,21 @@
         <div class="spec-item">
             <i class="fas fa-tools"></i>
             <h3>خامات قوية</h3>
-            <p>نعتمد على أجود قطاعات الألمنيوم الثقيل واكسسوارات مستوردة ومفصلات هيدروليك مصممة لتدوم طويلاً وتتحمل الاستخدام اليومي الشاق.</p>
+            <p>ألمنيوم ثقيل بقطاعات خاصة واكسسوارات إيطالية ومفصلات هيدروليك تتحمل الاستخدام الشاق لسنوات طويلة.</p>
         </div>
         <div class="spec-item">
             <i class="fas fa-gem"></i>
             <h3>رخام وجرانيت</h3>
-            <p>تشكيلة فاخرة من الجرانيت والرخام الطبيعي والصناعي بأعلى مستويات التشطيب واللمعان لإعطاء لمسة فنية لمطبخك.</p>
+            <p>تشكيلة فاخرة من الجرانيت والرخام الطبيعي والصناعي بأعلى مستويات اللمعان ودقة التركيب.</p>
         </div>
         <div class="spec-item">
             <i class="fas fa-cogs"></i>
             <h3>DOGGA SYSTEM</h3>
-            <p>ديناميكية تخصيم هندسية دقيقة ببرمجة المهندس ياسين علاء، تضمن لك جودة تركيب وتقفيل عالمية خالية من العيوب الفنية.</p>
+            <p>ديناميكية تخصيم هندسية دقيقة 100% ببرمجة DOGGA SYSTEM لضمان جودة تركيب عالمية.</p>
         </div>
     </section>
 
-    <h2 class="gallery-title">معرض الأعمال</h2>
+    <h2 class="gallery-title">معرض أعمالنا</h2>
     <div class="gallery-grid" id="mainGallery"></div>
 
     <div id="lightbox" onclick="this.style.display='none'">
@@ -163,27 +166,18 @@
     </div>
 
     <div id="adminPanel">
-        <div class="admin-modal">
-            <div class="admin-tabs">
-                <button class="tab-btn active" id="tAdd" onclick="switchTab('add')">إضافة</button>
-                <button class="tab-btn" id="tDel" onclick="switchTab('del')">حذف</button>
-            </div>
-            <div id="addSection">
-                <input type="text" id="inpUrl" placeholder="رابط الصورة">
-                <input type="text" id="inpName" placeholder="اسم التصميم">
-                <button class="btn-action" onclick="saveWork()">نشر الآن</button>
-            </div>
-            <div id="delSection" style="display:none;">
-                <div id="adminDelList" style="max-height: 200px; overflow-y: auto;"></div>
-            </div>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="width:100%; margin-top:15px; border:none; background:none; cursor:pointer; color:gray;">إغلاق</button>
+        <div class="admin-modal" style="background:white; color:black; padding:30px; border-radius:20px; width:100%; max-width:500px;">
+            <input type="text" id="inpUrl" placeholder="رابط الصورة" style="width:100%; padding:10px; margin:10px 0;">
+            <input type="text" id="inpName" placeholder="اسم التصميم" style="width:100%; padding:10px; margin:10px 0;">
+            <button onclick="saveWork()" style="width:100%; padding:15px; background:var(--gold); border:none; font-weight:900; cursor:pointer;">نشر الآن</button>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="margin-top:15px; width:100%; background:none; border:none; cursor:pointer;">إغلاق</button>
         </div>
     </div>
 
     <a href="https://wa.me/201144265938" class="wa-float"><i class="fab fa-whatsapp"></i></a>
 
     <footer>
-        <p style="color:var(--gold); font-weight:900; font-size:1.4rem; margin-bottom: 10px;">DED EL KASR - ضد الكسر</p>
+        <p style="color:var(--gold); font-weight:900; font-size:1.4rem; margin-bottom: 10px;">DED EL KASR</p>
         <p>تصميم المهندس ياسين علاء والمهندس أحمد السيد © 2026</p>
     </footer>
 
@@ -193,23 +187,16 @@
         const db = firebase.database();
 
         function openAdmin() {
-            if(prompt("باسورد المهندس:") === "123") {
+            if(prompt("كلمة سر المهندس ياسين:") === "123") {
                 document.getElementById('adminPanel').style.display = 'flex';
                 loadAdminList();
             }
         }
 
-        function switchTab(mode) {
-            document.getElementById('addSection').style.display = mode === 'add' ? 'block' : 'none';
-            document.getElementById('delSection').style.display = mode === 'del' ? 'block' : 'none';
-            document.getElementById('tAdd').classList.toggle('active', mode === 'add');
-            document.getElementById('tDel').classList.toggle('active', mode === 'del');
-        }
-
         function saveWork() {
             const url = document.getElementById('inpUrl').value;
             const name = document.getElementById('inpName').value || "تصميم جديد";
-            if(!url) return alert("حط الرابط");
+            if(!url) return alert("من فضلك ضع رابط الصورة");
             db.ref('works').push({ url, name }).then(() => location.reload());
         }
 
@@ -226,27 +213,10 @@
             });
         });
 
+        // ميزة الـ Lightbox لفتح الصورة
         function openLightbox(url) {
             document.getElementById('lightboxImg').src = url;
             document.getElementById('lightbox').style.display = 'flex';
-        }
-
-        function loadAdminList() {
-            const list = document.getElementById('adminDelList');
-            list.innerHTML = '';
-            db.ref('works').once('value', (s) => {
-                s.forEach((child) => {
-                    const data = child.val();
-                    list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;">
-                        <span>${data.name}</span>
-                        <button onclick="deleteIt('${child.key}')" style="color:red; border:none; background:none; cursor:pointer;">حذف</button>
-                    </div>`;
-                });
-            });
-        }
-
-        function deleteIt(id) {
-            if(confirm("مسح؟")) db.ref('works').child(id).remove().then(() => loadAdminList());
         }
     </script>
 </body>
