@@ -15,116 +15,102 @@
             --gold: #D4AF37;
             --dark-glass: rgba(0, 0, 0, 0.88);
             --border: rgba(212, 175, 55, 0.3);
+            --transition: all 0.4s ease;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         
-        /* --- الصورة في الخلفية (صورة ماكت شخص بيطبخ) --- */
         body { 
             color: white; overflow-x: hidden;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
-                        url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=2070'); /* صورة ماكت احترافية */
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.92)), 
+                        url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=2070');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        /* --- الهيدر (متجاوب للموبايل) --- */
         header {
-            position: fixed; top: 0; width: 100%; padding: 10px 5%;
+            position: fixed; top: 0; width: 100%; padding: 12px 5%;
             background: rgba(0,0,0,0.95); backdrop-filter: blur(10px);
             display: flex; justify-content: space-between; align-items: center;
             z-index: 2000; border-bottom: 1px solid var(--border);
         }
-        .logo-box { font-size: 1.4rem; font-weight: 900; color: var(--gold); }
-        .social-links { display: flex; align-items: center; }
-        .social-links a { color: white; margin-right: 12px; font-size: 1.1rem; transition: 0.3s; }
+        .logo-box { font-size: 1.5rem; font-weight: 900; color: var(--gold); }
+        .social-links a { color: white; margin-right: 15px; font-size: 1.2rem; transition: 0.3s; }
         .social-links a:hover { color: var(--gold); }
-        .btn-order { background: var(--gold); color: black; padding: 6px 15px; border-radius: 5px; font-weight: 900; text-decoration: none; font-size: 0.8rem; }
+        .btn-order { background: var(--gold); color: black; padding: 8px 18px; border-radius: 8px; font-weight: 900; text-decoration: none; font-size: 0.9rem; }
 
-        /* --- الرول (الشريط المتحرك) - متجاوب للموبايل --- */
+        /* --- الرول المتحرك (متجاوب) --- */
         .main-marquee {
-            margin-top: 65px; background: var(--gold); color: black; 
-            padding: 12px 0; overflow: hidden; white-space: nowrap; font-weight: 900;
+            margin-top: 70px; background: var(--gold); color: black; 
+            padding: 15px 0; overflow: hidden; white-space: nowrap; font-weight: 900;
             border-bottom: 3px solid #fff; position: relative; z-index: 100;
         }
         .marquee-container { display: inline-block; animation: scroll-text 35s linear infinite; }
-        .marquee-container span { margin: 0 40px; font-size: 1rem; }
+        .marquee-container span { margin: 0 40px; font-size: 1.1rem; }
         @keyframes scroll-text { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* --- قسم المواصفات (دلع زجاجي ومتجاوب) --- */
+        /* --- كروت المواصفات (طويلة ودلع) --- */
         .specs-section { 
-            padding: 50px 5%; display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; 
+            padding: 80px 5%; display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
         }
         .spec-item { 
-            background: var(--dark-glass); padding: 30px; border-radius: 20px; 
-            border: 1px solid var(--border); text-align: center; backdrop-filter: blur(5px);
-            transition: 0.4s;
+            background: var(--dark-glass); padding: 60px 30px; border-radius: 25px; 
+            border: 1px solid var(--border); text-align: center; backdrop-filter: blur(8px);
+            transition: var(--transition); min-height: 480px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .spec-item:hover { transform: translateY(-5px); border-color: var(--gold); }
-        .spec-item i { font-size: 2.5rem; color: var(--gold); margin-bottom: 15px; }
-        .spec-item h3 { font-size: 1.3rem; margin-bottom: 8px; color: var(--gold); }
-        .spec-item p { font-size: 0.9rem; color: #ccc; }
+        .spec-item:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.1); }
+        .spec-item i { font-size: 3.5rem; color: var(--gold); margin-bottom: 25px; }
+        .spec-item h3 { font-size: 1.8rem; margin-bottom: 15px; color: var(--gold); font-weight: 900; }
+        .spec-item p { font-size: 1.1rem; line-height: 1.8; color: #eee; }
 
-        /* --- معرض الأعمال (متجاوب للموبايل) --- */
-        .gallery-title { text-align: center; margin: 30px 0; font-size: 2rem; color: var(--gold); font-weight: 900; }
+        /* --- معرض الأعمال --- */
+        .gallery-title { text-align: center; margin: 40px 0; font-size: 2.5rem; color: var(--gold); font-weight: 900; }
         .gallery-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; padding: 0 5% 70px; 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 25px; padding: 0 5% 80px; 
         }
         .work-card { 
-            position: relative; border-radius: 15px; overflow: hidden; height: 350px; 
-            border: 1px solid var(--border); background: #000;
+            position: relative; border-radius: 20px; overflow: hidden; height: 380px; 
+            border: 1px solid var(--border); cursor: pointer;
         }
         .work-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .work-card:hover img { transform: scale(1.1); filter: brightness(0.4); }
-        .work-info { 
-            position: absolute; inset: 0; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; opacity: 0; transition: 0.4s; 
-            padding: 15px; text-align: center;
-        }
+        .work-info { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; }
         .work-card:hover .work-info { opacity: 1; }
-        .work-info h3 { font-size: 1.4rem; color: var(--gold); }
 
-        /* --- لوحة التحكم المخفية (متجاوبة للموبايل) --- */
+        /* --- Lightbox (تفتيح الصورة كاملة) --- */
+        #lightbox {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 5000; justify-content: center; align-items: center; padding: 20px;
+        }
+        #lightbox img { max-width: 100%; max-height: 90vh; border-radius: 10px; border: 2px solid var(--gold); }
+        .close-lightbox { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
+
+        /* --- لوحة التحكم --- */
         #adminPanel { 
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); 
-            z-index: 9999; align-items: center; justify-content: center; overflow-y: auto; padding: 15px;
+            z-index: 4000; align-items: center; justify-content: center; padding: 20px;
         }
-        .admin-modal { 
-            background: white; color: black; padding: 25px; border-radius: 15px; 
-            width: 100%; max-width: 480px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-        .admin-tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 15px; }
-        .tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: 900; cursor: pointer; font-size: 0.9rem; color: #666; }
+        .admin-modal { background: white; color: black; padding: 30px; border-radius: 20px; width: 100%; max-width: 500px; }
+        .admin-tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 900; cursor: pointer; color: #666; }
         .tab-btn.active { border-bottom: 3px solid var(--gold); color: var(--gold); }
-        
-        input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 0.9rem; }
-        .btn-action { width: 100%; padding: 12px; background: var(--gold); border: none; border-radius: 8px; font-weight: 900; cursor: pointer; font-size: 1rem; }
-        .del-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; margin-top: 10px; border-radius: 8px; }
-        .del-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
-        .del-row span { font-size: 0.9rem; color: #333; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; }
+        .btn-action { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
 
-        /* واتساب عائم (متجاوب) */
-        .wa-float { position: fixed; bottom: 25px; left: 25px; width: 55px; height: 55px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-
-        footer { padding: 40px 5%; text-align: center; border-top: 1px solid var(--border); background: rgba(0,0,0,0.9); }
-        footer p { font-size: 0.9rem; color: #aaa; }
-
-        /* --- Media Queries للتوافق مع الموبايل --- */
+        /* موبايل */
         @media (max-width: 768px) {
-            header { padding: 10px 3%; }
+            .spec-item { min-height: 400px; padding: 40px 20px; }
+            .spec-item h3 { font-size: 1.5rem; }
+            .spec-item p { font-size: 1rem; }
             .logo-box { font-size: 1.2rem; }
-            .btn-order { padding: 5px 12px; font-size: 0.75rem; }
-            .marquee-container span { margin: 0 25px; font-size: 0.9rem; }
-            .gallery-title { font-size: 1.8rem; }
-            .specs-section { padding: 30px 3%; gap: 15px; }
-            .spec-item { padding: 25px; }
-            .admin-modal { padding: 20px; }
         }
+
+        .wa-float { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; z-index: 1000; }
     </style>
 </head>
 <body ondblclick="openAdmin()">
@@ -132,9 +118,9 @@
     <header>
         <div class="logo-box">ضد الكسر</div>
         <div class="social-links">
-            <a href="https://facebook.com/YOUR_PAGE_LINK"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
             <a href="https://wa.me/201144265938"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://wa.me/201144265938?text=طلب معاينة لشغل ضد الكسر" class="btn-order">اطلب المعاينة</a>
+            <a href="https://wa.me/201144265938" class="btn-order">اطلب المعاينة</a>
         </div>
     </header>
 
@@ -147,7 +133,6 @@
             <span>💎 تشطيب نضيف يديك شكل يليق بيك</span>
             <span>🛡️ ضد الكسر للمطابخ</span>
             <span>✨ جودة تعيش… وشغل يفرق</span>
-            <span>💪 خامات قوية مستحملة الاستخدام</span>
         </div>
     </div>
 
@@ -155,49 +140,51 @@
         <div class="spec-item">
             <i class="fas fa-tools"></i>
             <h3>خامات قوية</h3>
-            <p>ألمنيوم ثقيل واكسسوارات مستوردة تتحمل أصعب الظروف.</p>
+            <p>نعتمد على أجود قطاعات الألمنيوم الثقيل واكسسوارات مستوردة ومفصلات هيدروليك مصممة لتدوم طويلاً وتتحمل الاستخدام اليومي الشاق.</p>
         </div>
         <div class="spec-item">
             <i class="fas fa-gem"></i>
             <h3>رخام وجرانيت</h3>
-            <p>تشكيلة فاخرة من الرخام الطبيعي والصناعي بأعلى جودة.</p>
+            <p>تشكيلة فاخرة من الجرانيت والرخام الطبيعي والصناعي بأعلى مستويات التشطيب واللمعان لإعطاء لمسة فنية لمطبخك.</p>
         </div>
         <div class="spec-item">
             <i class="fas fa-cogs"></i>
             <h3>DOGGA SYSTEM</h3>
-            <p>ديناميكية تخصيم هندسية دقيقة لضمان جودة التركيب.</p>
+            <p>ديناميكية تخصيم هندسية دقيقة ببرمجة المهندس ياسين علاء، تضمن لك جودة تركيب وتقفيل عالمية خالية من العيوب الفنية.</p>
         </div>
     </section>
 
-    <h2 class="gallery-title">معرض أعمالنا</h2>
-    <div class="gallery-grid" id="mainGallery">
-        </div>
+    <h2 class="gallery-title">معرض الأعمال</h2>
+    <div class="gallery-grid" id="mainGallery"></div>
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <span class="close-lightbox">&times;</span>
+        <img id="lightboxImg" src="">
+    </div>
 
     <div id="adminPanel">
         <div class="admin-modal">
             <div class="admin-tabs">
-                <button class="tab-btn active" id="tAdd" onclick="switchTab('add')">إضافة عمل</button>
-                <button class="tab-btn" id="tDel" onclick="switchTab('del')">إدارة الحذف</button>
+                <button class="tab-btn active" id="tAdd" onclick="switchTab('add')">إضافة</button>
+                <button class="tab-btn" id="tDel" onclick="switchTab('del')">حذف</button>
             </div>
             <div id="addSection">
-                <input type="text" id="inpUrl" placeholder="رابط الصورة المباشر من ImgBB">
-                <input type="text" id="inpName" placeholder="اسم التصميم (مثال: مطبخ رمادي)">
-                <button class="btn-action" onclick="saveWork()">نشر في المعرض الآن</button>
+                <input type="text" id="inpUrl" placeholder="رابط الصورة">
+                <input type="text" id="inpName" placeholder="اسم التصميم">
+                <button class="btn-action" onclick="saveWork()">نشر الآن</button>
             </div>
             <div id="delSection" style="display:none;">
-                <p style="font-size:0.8rem; color:red; margin-bottom:8px;">* إدارة الأعمال المنشورة في المعرض</p>
-                <div class="del-list" id="adminDelList">
-                    </div>
+                <div id="adminDelList" style="max-height: 200px; overflow-y: auto;"></div>
             </div>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="margin-top:15px; width:100%; background:none; border:none; color:gray; cursor:pointer; font-weight:bold; font-size:0.9rem;">إغلاق الإعدادات</button>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="width:100%; margin-top:15px; border:none; background:none; cursor:pointer; color:gray;">إغلاق</button>
         </div>
     </div>
 
-    <a href="https://wa.me/201144265938" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://wa.me/201144265938" class="wa-float"><i class="fab fa-whatsapp"></i></a>
 
     <footer>
-        <p style="color:var(--gold); font-weight:900; font-size:1.3rem;">DED EL KASR</p>
-        <p>تصميم م/ ياسين علاء & م/ أحمد السيد © 2026</p>
+        <p style="color:var(--gold); font-weight:900; font-size:1.4rem; margin-bottom: 10px;">DED EL KASR - ضد الكسر</p>
+        <p>تصميم المهندس ياسين علاء والمهندس أحمد السيد © 2026</p>
     </footer>
 
     <script>
@@ -206,7 +193,7 @@
         const db = firebase.database();
 
         function openAdmin() {
-            if(prompt("كلمة سر المهندس:") === "123") {
+            if(prompt("باسورد المهندس:") === "123") {
                 document.getElementById('adminPanel').style.display = 'flex';
                 loadAdminList();
             }
@@ -222,48 +209,44 @@
         function saveWork() {
             const url = document.getElementById('inpUrl').value;
             const name = document.getElementById('inpName').value || "تصميم جديد";
-            if(!url.startsWith('http')) return alert("يرجى إدخال رابط صورة صحيح!");
-            db.ref('works').push({ url, name }).then(() => {
-                alert("تم رفع العمل بنجاح!");
-                location.reload();
-            });
+            if(!url) return alert("حط الرابط");
+            db.ref('works').push({ url, name }).then(() => location.reload());
         }
 
-        // عرض الصور للجمهور (بدون أزرار حذف)
         db.ref('works').on('value', (s) => {
             const grid = document.getElementById('mainGallery');
             grid.innerHTML = '';
             s.forEach((child) => {
                 const data = child.val();
                 grid.innerHTML += `
-                    <div class="work-card">
+                    <div class="work-card" onclick="openLightbox('${data.url}')">
                         <img src="${data.url}">
                         <div class="work-info"><h3>${data.name}</h3></div>
                     </div>`;
             });
         });
 
-        // تحميل قائمة الحذف في لوحة التحكم فقط
+        function openLightbox(url) {
+            document.getElementById('lightboxImg').src = url;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
         function loadAdminList() {
             const list = document.getElementById('adminDelList');
-            list.innerHTML = 'جاري التحميل...';
+            list.innerHTML = '';
             db.ref('works').once('value', (s) => {
-                list.innerHTML = '';
                 s.forEach((child) => {
                     const data = child.val();
-                    list.innerHTML += `
-                        <div class="del-row">
-                            <span>${data.name}</span>
-                            <button onclick="deleteIt('${child.key}')" style="color:red; border:none; background:none; cursor:pointer;">حذف 🗑️</button>
-                        </div>`;
+                    list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;">
+                        <span>${data.name}</span>
+                        <button onclick="deleteIt('${child.key}')" style="color:red; border:none; background:none; cursor:pointer;">حذف</button>
+                    </div>`;
                 });
             });
         }
 
         function deleteIt(id) {
-            if(confirm("هل أنت متأكد من حذف هذه الصورة نهائياً؟")) {
-                db.ref('works').child(id).remove().then(() => loadAdminList());
-            }
+            if(confirm("مسح؟")) db.ref('works').child(id).remove().then(() => loadAdminList());
         }
     </script>
 </body>
